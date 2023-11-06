@@ -1,15 +1,5 @@
-import Introduce from "@/components/introduce/Introduce";
-import MarkMap from "@/components/markMap/MarkMap";
-import Header from "@/components/header/Header";
+import HomePageLayout from "@/components/home/HomePageLayout";
 
-export default function Home() {
-  return (
-    <>
-      <Header />
-      <div className="flex gap-3">
-        <Introduce />
-        <MarkMap />
-      </div>
-    </>
-  );
+export default function HomePage() {
+  return <HomePageLayout />;
 }
