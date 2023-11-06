@@ -9,6 +9,12 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      mobile: "390px",
+      tablet: "640px",
+      laptop: "1024px",
+      desktop: "1280px",
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -17,12 +23,12 @@ module.exports = {
       },
       colors: {
         primary: {
-          100: "#8D33FF",
-          90: "#A3A3FD",
-          70: "#C5C5FF",
-          50: "#DFDFFF",
-          30: "#EBEBFF",
-          10: "#F4F4FE",
+          6: "#8D33FF",
+          5: "#A3A3FD",
+          4: "#C5C5FF",
+          3: "#DFDFFF",
+          2: "#EBEBFF",
+          1: "#F4F4FE",
         },
         grayscale: {
           100: "#030303",
