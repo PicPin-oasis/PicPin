@@ -4,7 +4,7 @@ import Script from "next/script";
 import { useState, useEffect } from "react";
 import { Map } from "react-kakao-maps-sdk";
 
-const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_API_KEY}&autoload=false`;
+const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_API_KEY}&autoload=false`;
 
 const KakaoMap = () => {
   const [location, setLocation] = useState({ lat: 33.450701, lng: 126.570667 });
