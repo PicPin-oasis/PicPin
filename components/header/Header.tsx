@@ -7,16 +7,9 @@ import TabMenu from "./TabMenu";
 
 const Header = () => {
   return (
-    <div className="w-screen flex justify-between bg-grayscale-5">
+    <div className="w-full flex justify-between">
       <Link href="/">
-        <Image
-          width="100"
-          className="ml-3"
-          height="50"
-          src={logoImg}
-          alt="logoImg"
-          priority
-        />
+        <Image width="160" height="80" src={logoImg} alt="logoImg" priority />
       </Link>
       <TabMenu />
     </div>

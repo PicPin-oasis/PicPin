@@ -9,7 +9,7 @@ const Button = ({ text, onClick }: ButtonProps) => {
   >(() => onClick && onClick(), [onClick]);
   return (
     <button
-      className="text-center bg-primary-100 px-7 py-3 text-white rounded-lg border-none	"
+      className="text-center bg-primary-6 w-fit px-7 py-3 text-white rounded-lg border-none	shadow-lg"
       onClick={onClickCallback}
     >
       {text}

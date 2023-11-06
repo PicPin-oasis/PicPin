@@ -8,5 +8,14 @@ export interface LoginFormValue {
 }
 export interface User {
   email: string;
-  password: string;
+  nickname: string;
+  profileImage: string;
+}
+export interface ModalWrapperProps {
+  isModalOpen: Boolean;
+  onCloseModal: () => void;
+  children?: React.ReactElement;
+}
+export interface KaKaoLoginProps {
+  onKakaoLogin?: () => void;
 }
