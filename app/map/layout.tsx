@@ -7,7 +7,7 @@ import UploaderButtons from "./(componenets)/UploaderButtons";
 
 const MapPageLayout = () => {
   return (
-    <div className="w-full flex flex-col  justify-center  items-center">
+    <div className="relative w-full flex flex-col justify-center items-center">
       <Header />
       <FilterTab />
       <UploaderButtons />
