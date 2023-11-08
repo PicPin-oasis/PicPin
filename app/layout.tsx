@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "./Provider";
+import { ChildrenProps } from "@/types/types";
 
 export const metadata: Metadata = {
   title: "PICPIN",
@@ -10,11 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body className="mobile:w-full tablet:w-11/12">

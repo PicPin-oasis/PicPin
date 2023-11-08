@@ -11,7 +11,7 @@ export interface User {
   access_token: string;
 }
 export interface ChildrenProps {
-  children?: React.ReactElement;
+  children?: React.ReactNode;
 }
 export interface KaKaoLoginProps {
   onKakaoLogin?: () => void;
