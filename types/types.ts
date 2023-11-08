@@ -2,13 +2,14 @@ export interface ButtonProps {
   text: string;
   onClick: () => void;
   image?: string;
+  classNames?: string;
 }
-export interface LoginFormValue {
+export interface LoginFormProps {
   email: string;
   password: string;
 }
-export interface User {
-  access_token: string;
+export interface AccessTokenProps {
+  accessToken: string;
 }
 export interface ChildrenProps {
   children?: React.ReactNode;
@@ -20,4 +21,9 @@ export interface KaKaoLoginProps {
 export interface ModalWrapperProps {
   children?: React.ReactElement;
   onCloseModal: () => void;
+}
+
+export interface UserInformationSliceProps {
+  username: string;
+  profileImageUrl: string;
 }

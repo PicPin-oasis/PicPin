@@ -1,7 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import type { TypedUseSelectorHook } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
-import userSlice from "./userSlice";
+import accessTokenSlice from "./accessTokenSlice";
+import userInformationSlice from "./userInformationSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -9,11 +10,13 @@ const persistConfig = {
   key: "root",
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, userSlice);
+const rootReducer = combineReducers({
+  accessToken: accessTokenSlice,
+  userInformaion: userInformationSlice,
+});
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
-  reducer: {
-    userInfo: persistedReducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
