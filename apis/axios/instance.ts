@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:3000/",
-  baseURL: "https://www.picpin.life/",
+  baseURL: "http://localhost:3000",
+  // baseURL: "https://www.picpin.life/",
+  // baseURL: "https://api.picpin.life",
   headers: {
     "content-type": "application/x-www-form-urlencoded;charset=utf-8",
   },
+  withCredentials: true,
 });
 
 // axiosInstance.interceptors.request.use(
