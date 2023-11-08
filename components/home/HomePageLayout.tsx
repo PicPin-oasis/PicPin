@@ -7,24 +7,36 @@ import mainImg1 from "@assets/svg/main1.svg";
 import mainImg2 from "@assets/svg/main2.svg";
 import Header from "@/components/header/Header";
 import InfoText from "./InfoText";
-import { useAppSelector } from "@/redux/store";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
 import KakaoLoginModal from "../login/KaKaoLoginModal";
 import { login } from "@/apis/axios/login";
+import { loginUser } from "@/redux/userSlice";
+import { useModal } from "@/hooks/useModal";
 
 const HomePageLayout = () => {
   const router = useRouter();
   const userInfo = useAppSelector((state) => state.userInfo);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  console.log("userInfo:: ", userInfo);
+  const dispatch = useAppDispatch();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const handleButtonClick = () => {
-    if (!userInfo.email) {
-      setIsModalOpen(true);
+    if (!userInfo.access_token) {
+      handleOpenModal();
     } else {
       router.push("/map");
+    }
+  };
+
+  const handleKaKaoLogin = async (code: string) => {
+    try {
+      const res = await login({ code });
+      // console.log("res:: ", res.access_token.payload);
+      if (res.access_token.payload) {
+        dispatch(loginUser(res.access_token.payload));
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -32,9 +44,8 @@ const HomePageLayout = () => {
     const params = new URL(window.location.href).searchParams;
     const code = params.get("code");
 
-    // 인가 코드가 있으면 백엔드로 전송
     if (code) {
-      login({ code });
+      handleKaKaoLogin(code);
     }
   }, []);
   return (
@@ -51,7 +62,7 @@ const HomePageLayout = () => {
           <InfoText />
           <Button text="나만의 지도 만들기 >" onClick={handleButtonClick} />
         </div>
-        <h2 className="w-full text-left">{userInfo.nickname}님의 여행 지도</h2>
+        <h2 className="w-full text-left">OOO님의 여행 지도</h2>
         <Image
           className="w-full h-min"
           src={mainImg2}
@@ -59,12 +70,7 @@ const HomePageLayout = () => {
           priority
         />
       </div>
-      {isModalOpen && (
-        <KakaoLoginModal
-          isModalOpen={isModalOpen}
-          onCloseModal={handleCloseModal}
-        />
-      )}
+      {isModalOpen && <KakaoLoginModal onCloseModal={handleCloseModal} />}
     </div>
   );
 };
