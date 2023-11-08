@@ -11,32 +11,21 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import KakaoLoginModal from "../login/KaKaoLoginModal";
 import { login } from "@/apis/axios/login";
-import { loginUser } from "@/redux/userSlice";
+import { setAccessToken } from "@/redux/accessTokenSlice";
 import { useModal } from "@/hooks/useModal";
+import { getUserInfo } from "@/apis/axios/getUserInfo";
+import { setUserInformation } from "@/redux/userInformationSlice";
 
 const HomePageLayout = () => {
   const router = useRouter();
-  const userInfo = useAppSelector((state) => state.userInfo);
-  console.log("userInfo:: ", userInfo);
+  const { accessToken } = useAppSelector((state) => state.accessToken);
   const dispatch = useAppDispatch();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const handleButtonClick = () => {
-    if (!userInfo.access_token) {
+    if (!accessToken) {
       handleOpenModal();
     } else {
       router.push("/map");
-    }
-  };
-
-  const handleKaKaoLogin = async (code: string) => {
-    try {
-      const res = await login({ code });
-      // console.log("res:: ", res.access_token.payload);
-      if (res.access_token.payload) {
-        dispatch(loginUser(res.access_token.payload));
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
   useEffect(() => {
@@ -44,10 +33,21 @@ const HomePageLayout = () => {
     const params = new URL(window.location.href).searchParams;
     const code = params.get("code");
 
-    if (code) {
-      handleKaKaoLogin(code);
+    if (code && !accessToken) {
+      login({ code })
+        .then((res) => dispatch(setAccessToken(res.access_token.payload)))
+        .catch((err) => console.log(err));
     }
-  }, []);
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (accessToken) {
+      getUserInfo({ accessToken })
+        .then((res) => dispatch(setUserInformation(res)))
+        .catch((err) => console.log(err));
+    }
+  }, [accessToken]);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <Header />
