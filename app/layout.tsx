@@ -15,6 +15,10 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body className="mobile:w-full tablet:w-11/12">
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
         <Provider>{children}</Provider>
       </body>
     </html>
