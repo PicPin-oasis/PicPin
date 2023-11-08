@@ -45,15 +45,7 @@ module.exports = {
         },
         red: "#FF0000",
         green: "#33E95B",
-      },
-      boxShadow: {
-        "1dp": "0px 1px 2px 0px #00000030",
-        "2dp": "0px 2px 4px 0px #0000001A",
-        "4dp": "0px 4px 8px 0px #00000030",
-        "8dp": "0px 8px 16px 0px #00000030",
-        "16dp": "0px 16px 32px 0px #00000030",
-        "24dp": "0px 24px 32px 0px #00000030",
-      },
+      }
     },
   },
   plugins: [require("@tailwindcss/typography")],
