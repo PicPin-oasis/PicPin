@@ -23,12 +23,12 @@ module.exports = {
       },
       colors: {
         primary: {
-          6: "#8D33FF",
-          5: "#A3A3FD",
-          4: "#C5C5FF",
-          3: "#DFDFFF",
-          2: "#EBEBFF",
-          1: "#F4F4FE",
+          6: "#F5401B",
+          5: "#F76649",
+          4: "#F98C76",
+          3: "#FBB3A4",
+          2: "#FDD9D1",
+          1: "#FEECE8",
         },
         grayscale: {
           100: "#030303",
