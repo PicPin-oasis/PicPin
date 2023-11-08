@@ -5,8 +5,9 @@ import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { PersistGate } from "redux-persist/integration/react";
+import { ChildrenProps } from "@/types/types";
 
-const Provider = ({ children }: { children: ReactNode }) => {
+const Provider = ({ children }: ChildrenProps) => {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
