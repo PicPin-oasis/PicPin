@@ -3,19 +3,16 @@ import { PURGE } from "redux-persist";
 import { User } from "@/types/types";
 
 const initialState: User = {
-  email: "",
-  nickname: "",
-  profileImage: "",
+  access_token: "",
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: "access_token",
   initialState,
   reducers: {
     loginUser: (state, action) => {
-      state.email = action.payload.email;
-      state.nickname = action.payload.nickname;
-      state.profileImage = action.payload.profileImage;
+      // console.log("action", action);
+      state.access_token = action.payload;
     },
     logoutUser: () => initialState,
   },
