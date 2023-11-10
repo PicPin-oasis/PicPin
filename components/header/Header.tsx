@@ -5,7 +5,7 @@ import Image from "next/image";
 import logoImg from "@assets/svg/logo.svg";
 import TabMenu from "./TabMenu";
 
-const Header = () => {
+export const Header = () => {
   return (
     <div className="w-full flex justify-between">
       <Link href="/">
@@ -15,5 +15,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;

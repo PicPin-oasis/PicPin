@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { clearAccessToken } from "@/redux/accessTokenSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import KakaoLoginModal from "../login/KaKaoLoginModal";
 import { useModal } from "@/hooks/useModal";
-import { useRouter } from "next/navigation";
-
+import { useRouter, usePathname } from "next/navigation";
 const TabMenu = () => {
   const links = [
     { href: "/map", text: "지도" },
@@ -19,6 +18,9 @@ const TabMenu = () => {
   const dispatch = useAppDispatch();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const router = useRouter();
+  const pathname = usePathname();
+  const isActivePath = (href: string) => pathname.includes(href);
+
   const handleLoginButton = () => {
     if (!accessToken) {
       handleOpenModal();
@@ -39,7 +41,9 @@ const TabMenu = () => {
         <Link
           key={href}
           href={href}
-          className="text-current hover:text-primary-6 focus:text-primary-6 focus:font-semibold no-underline"
+          className={`${
+            isActivePath(href) && "focus:text-primary-6 focus:font-semibold"
+          } text-current hover:text-primary-6 no-underline`}
         >
           {text}
         </Link>
@@ -56,4 +60,4 @@ const TabMenu = () => {
     </div>
   );
 };
-export default TabMenu;
+export default React.memo(TabMenu);
