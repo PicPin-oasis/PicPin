@@ -8,7 +8,7 @@ const KakaoLoginModal = ({ onCloseModal }: ModalWrapperProps) => {
     window.location.href = kakaoURL;
   };
   return (
-    <ModalWrapper onCloseModal={onCloseModal}>
+    <ModalWrapper title="로그인" onCloseModal={onCloseModal}>
       <KaKaoLoginButton onKakaoLogin={handleKakaoLogin} />
     </ModalWrapper>
   );

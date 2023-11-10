@@ -5,7 +5,7 @@ import Button from "../common/Button";
 import Image from "next/image";
 import mainImg1 from "@assets/svg/main1.svg";
 import mainImg2 from "@assets/svg/main2.svg";
-import Header from "@/components/header/Header";
+import { Header } from "@/components/header/Header";
 import InfoText from "./InfoText";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
