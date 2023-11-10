@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/components/header/Header";
+import { Header } from "@/components/header/Header";
 import KakaoMap from "./(componenets)/KaKaoMap";
 import FilterTab from "./(componenets)/FilterTab";
 import UploaderButtons from "./(componenets)/UploaderButtons";

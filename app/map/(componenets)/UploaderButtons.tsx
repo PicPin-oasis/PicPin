@@ -3,8 +3,11 @@
 import Button from "@/components/common/Button";
 import albumImg from "@assets/svg/album.svg";
 import postImg from "@assets/svg/post.svg";
+import { useRouter } from "next/navigation";
 
 const UploaderButtons = () => {
+  const router = useRouter();
+  const handlePostButton = () => router.push("/post");
   const classNames =
     "flex flex-row-reverse justify-center items-center w-full gap-1 mb-3";
   return (
@@ -17,7 +20,7 @@ const UploaderButtons = () => {
       />
       <Button
         text={"포스트 등록"}
-        onClick={() => {}}
+        onClick={handlePostButton}
         image={postImg}
         classNames={classNames}
       />

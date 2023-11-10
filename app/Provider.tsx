@@ -1,6 +1,5 @@
 "use client";
 import { store, persistor } from "@/redux/store";
-import { ReactNode, useState } from "react";
 import { Provider as ReduxProvider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
