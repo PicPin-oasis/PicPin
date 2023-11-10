@@ -29,6 +29,7 @@ module.exports = {
           3: "#FBB3A4",
           2: "#FDD9D1",
           1: "#FEECE8",
+          0: "#FFF7F5"
         },
         grayscale: {
           100: "#030303",
