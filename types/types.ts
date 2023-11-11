@@ -56,8 +56,8 @@ export interface PostFormProps {
 }
 
 export interface CalendarProps {
-  selectedDate: Date | null;
-  setSelectedDate: (date: Date | null) => void;
+  selectedDate: string;
+  setSelectedDate: (value: string) => void;
 }
 
 export interface ColorMarkerProps {

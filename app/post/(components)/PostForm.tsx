@@ -15,13 +15,20 @@ export default function PostForm() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { isSubmitting, isSubmitted, errors },
   } = useForm<PostFormProps>();
-  const [imageDate, setImageDate] = useState(new Date());
+  // const [imageDate, setImageDate] = useState(new Date());
   const [pickedColorNumber, setPickedColorNumber] = useState(0);
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+  useEffect(() => {
+    setValue("marker_color_id", pickedColorNumber);
+  }, [pickedColorNumber, setValue]);
 
   return (
-    <form noValidate className="w-11/12 h-full pb-8 " onSubmit={() => {}}>
+    <form noValidate className="w-11/12 h-full pb-8 " onSubmit={onSubmit}>
       <Text text="사진" type="essential" />
       <ImageUploader register={register} />
       <Text text="포스트 이름" type="essential" />
@@ -54,7 +61,7 @@ export default function PostForm() {
         name="taken_photo_date" // 훅폼에서 관리될 필드 이름
         render={({ field }) => (
           <Calendar
-            selectedDate={field.value ? new Date(field.value) : null}
+            selectedDate={field.value}
             setSelectedDate={field.onChange}
           />
         )}
@@ -66,11 +73,11 @@ export default function PostForm() {
         register={register}
         name="memo"
         rules={{ maxLength: 100 }}
-        classNames="h-28"
+        classNames="text-start h-28"
       />
 
       <Text text="마커 색상" type="essential" />
-      <input type="hidden" />
+      <input type="hidden" {...register("marker_color_id")} />
       <ColorMarker
         pickedColorNumber={pickedColorNumber}
         setPickedColorNumber={setPickedColorNumber}
