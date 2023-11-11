@@ -1,24 +1,27 @@
 import { SelectImageProps, DeleteImageProps } from "@/types/types";
-// import { getImageInformation } from "./getImageInformation";
+import { getImageInformation } from "./getImageInformation";
 
 export const selectImage = ({
   event,
-  previewImage,
-  setPreviewImage,
+  filesAndPreviews,
+  setFilesAndPreviews,
 }: SelectImageProps) => {
   return new Promise((resolve, reject) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
 
       if (file) {
+        // 이미지 정보(위치/날짜) 받아오는 함수
         // getImageInformation(file).then(info => {
         //   console.log(info);
         //   resolve(info);
         // });
-        const imageUrl = URL.createObjectURL(file);
-        setPreviewImage((prev) => [...prev, imageUrl]);
+
+        const previewUrl = URL.createObjectURL(file);
+        setFilesAndPreviews((prev) => [...prev, { file, previewUrl }]);
+        console.log(filesAndPreviews);
       }
-      if (previewImage.length >= 10) {
+      if (filesAndPreviews.length >= 10) {
         alert("사진은 최대 10장까지 업로드 가능합니다.");
       }
     } else {
@@ -27,6 +30,11 @@ export const selectImage = ({
   });
 };
 
-export const deleteImage = ({ url, setPreviewImage }: DeleteImageProps) => {
-  setPreviewImage((prevImages) => prevImages.filter((item) => item !== url));
+export const deleteImage = ({
+  target,
+  setFilesAndPreviews,
+}: DeleteImageProps) => {
+  setFilesAndPreviews((prev) =>
+    prev.filter((item) => item.previewUrl !== target.previewUrl),
+  );
 };

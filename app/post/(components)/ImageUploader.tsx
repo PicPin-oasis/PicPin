@@ -2,13 +2,16 @@
 
 import { useRef, useState, useEffect } from "react";
 import plusImg from "@assets/svg/plus.svg";
-import { ImageUploaderProps } from "@/types/types";
+import { ImageUploaderProps, FileWithPreview } from "@/types/types";
 import Image from "next/image";
 import { PreviewImages } from "./PreviewImages";
 import { selectImage, deleteImage } from "@/utils/handleImages";
 
-export const ImageUploader = ({ register }: ImageUploaderProps) => {
-  const [previewImage, setPreviewImage] = useState<string[]>([]);
+export const ImageUploader = ({
+  register,
+  filesAndPreviews,
+  setFilesAndPreviews,
+}: ImageUploaderProps) => {
   const fileInputRef = useRef(null);
   const handleSelectImage = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -16,20 +19,20 @@ export const ImageUploader = ({ register }: ImageUploaderProps) => {
     try {
       const imageInformation = await selectImage({
         event,
-        previewImage,
-        setPreviewImage,
+        filesAndPreviews,
+        setFilesAndPreviews,
       });
     } catch (error) {
       console.error(error);
     }
   };
-  const handleDeleteImage = (url: string) => {
-    deleteImage({ url, setPreviewImage });
+  const handleDeleteImage = (target: FileWithPreview) => {
+    deleteImage({ target, setFilesAndPreviews });
   };
 
   useEffect(() => {
     return () => {
-      previewImage.map((url) => URL.revokeObjectURL(url));
+      filesAndPreviews.map((item) => URL.revokeObjectURL(item.previewUrl));
     };
   }, []);
 
@@ -49,10 +52,10 @@ export const ImageUploader = ({ register }: ImageUploaderProps) => {
         id="image-upload" // id를 추가하여 label과 연결
         ref={fileInputRef} // input에 ref 연결
         onChange={handleSelectImage}
-        disabled={previewImage.length >= 10} // 최대 10장
+        disabled={filesAndPreviews.length >= 10} // 최대 10장
       />
       <PreviewImages
-        previewImage={previewImage}
+        filesAndPreviews={filesAndPreviews}
         handleDeleteImage={handleDeleteImage}
       />
     </div>

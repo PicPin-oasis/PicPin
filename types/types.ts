@@ -1,4 +1,4 @@
-import { SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UseFormRegister, RegisterOptions } from "react-hook-form";
 
 export interface TextProps {
@@ -77,27 +77,39 @@ export interface InputProps {
   rules?: RegisterOptions;
 }
 
+export interface FileWithPreview {
+  file: File;
+  previewUrl: string;
+}
+
 export interface ImageUploaderProps {
   register: UseFormRegister<PostFormProps>;
+  filesAndPreviews: FileWithPreview[];
+  setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
 
 export interface PreviewImagesProps {
-  previewImage: string[];
-  handleDeleteImage: (value: string) => void;
+  filesAndPreviews: FileWithPreview[];
+  handleDeleteImage: (value: FileWithPreview) => void;
 }
 
 export interface SelectImageProps {
   event: React.ChangeEvent<HTMLInputElement>;
-  previewImage: string[];
-  setPreviewImage: React.Dispatch<React.SetStateAction<string[]>>;
+  filesAndPreviews: FileWithPreview[];
+  setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
 
 export interface DeleteImageProps {
-  url: string;
-  setPreviewImage: React.Dispatch<React.SetStateAction<string[]>>;
+  target: FileWithPreview;
+  setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
 
-export interface getImageAddressProps {
+export interface GetImageAddressProps {
   longitude: string;
   latitude: string;
+}
+
+export interface CreatePresignedURLProps {
+  filename: string;
+  accessToken: string;
 }

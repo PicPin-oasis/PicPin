@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { PostFormProps } from "@/types/types";
+import { PostFormProps, FileWithPreview } from "@/types/types";
 import { Text } from "@/components/common/Text";
 import { Calendar } from "./Calendar";
 import { ColorMarker } from "./ColorMarker";
@@ -20,6 +20,9 @@ export default function PostForm() {
   } = useForm<PostFormProps>();
   // const [imageDate, setImageDate] = useState(new Date());
   const [pickedColorNumber, setPickedColorNumber] = useState(0);
+  const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
+    [],
+  );
   const onSubmit = handleSubmit((data) => {
     console.log(data);
   });
@@ -30,7 +33,11 @@ export default function PostForm() {
   return (
     <form noValidate className="w-11/12 h-full pb-8 " onSubmit={onSubmit}>
       <Text text="사진" type="essential" />
-      <ImageUploader register={register} />
+      <ImageUploader
+        register={register}
+        filesAndPreviews={filesAndPreviews}
+        setFilesAndPreviews={setFilesAndPreviews}
+      />
       <Text text="포스트 이름" type="essential" />
       <Input
         placeholder="사진 속 장소는 어디인가요? ex. 강문해변, 광안리"
@@ -44,7 +51,6 @@ export default function PostForm() {
           },
         }}
       />
-
       <Text text="주소" type="essential" />
       <Input
         placeholder="사진 속 주소는 어디인가요? ex. 강문해변, 광안리"
@@ -54,11 +60,10 @@ export default function PostForm() {
           required: "주소를 입력해주세요",
         }}
       />
-
       <Text text="날짜" type="essential" />
       <Controller
         control={control}
-        name="taken_photo_date" // 훅폼에서 관리될 필드 이름
+        name="taken_photo_date"
         render={({ field }) => (
           <Calendar
             selectedDate={field.value}
@@ -66,7 +71,6 @@ export default function PostForm() {
           />
         )}
       />
-
       <Text text="메모" />
       <Input
         placeholder="사진 속 장소에서의 추억을 자유롭게 적어주세요 !"
@@ -75,7 +79,6 @@ export default function PostForm() {
         rules={{ maxLength: 100 }}
         classNames="text-start h-28"
       />
-
       <Text text="마커 색상" type="essential" />
       <input type="hidden" {...register("marker_color_id")} />
       <ColorMarker

@@ -5,15 +5,15 @@ import Image from "next/image";
 import cancelIcon from "@assets/svg/cancel.svg";
 
 export const PreviewImages = ({
-  previewImage,
+  filesAndPreviews,
   handleDeleteImage,
 }: PreviewImagesProps) => {
   return (
     <div className="flex gap-2 w-full overflow-x-auto">
-      {previewImage.map((url) => (
-        <div key={url} className="relative">
+      {filesAndPreviews.map((item) => (
+        <div key={item.previewUrl} className="relative">
           <Image
-            src={url}
+            src={item.previewUrl}
             alt="previewImg"
             width={113}
             height={121}
@@ -22,7 +22,7 @@ export const PreviewImages = ({
           />
           <Image
             src={cancelIcon}
-            onClick={() => handleDeleteImage(url)}
+            onClick={() => handleDeleteImage(item)}
             alt="cancelIcon"
             className="absolute z-30 top-1 right-1 cursor-pointer"
           />
