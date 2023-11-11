@@ -2,8 +2,7 @@
 
 import { ColorPickerProps } from "@/types/types";
 
-export const colorPicker = ({
-  color,
+export const ColorPicker = ({
   index,
   pickedColorNumber,
   setPickedColorNumber,
@@ -15,10 +14,10 @@ export const colorPicker = ({
   };
   return (
     <button
-      key={color}
       type="button"
+      key={index}
       onClick={() => handlePickedColorNumber(index)}
-      className={`border-none opacity-30 rounded-md focus:opacity-100 w-14 h-14 cursor-pointer z-20 ${color}`}
+      className={`border-none opacity-30 rounded-md focus:opacity-100 w-14 h-14 cursor-pointer z-20 bg-marks-${index}`}
     />
   );
 };

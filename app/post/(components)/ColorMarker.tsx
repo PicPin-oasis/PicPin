@@ -1,7 +1,6 @@
 "use client";
-import { MARK_COLORS } from "@/constants/colors";
 import { ColorMarkerProps } from "@/types/types";
-import { colorPicker } from "./ColorPicker";
+import { ColorPicker } from "./ColorPicker";
 
 export const ColorMarker = ({
   pickedColorNumber,
@@ -9,8 +8,8 @@ export const ColorMarker = ({
 }: ColorMarkerProps) => {
   return (
     <div className="flex gap-1">
-      {MARK_COLORS.map((color, index) =>
-        colorPicker({ color, index, pickedColorNumber, setPickedColorNumber }),
+      {[0, 1, 2, 3, 4, 5, 6].map((index) =>
+        ColorPicker({ index, pickedColorNumber, setPickedColorNumber }),
       )}
     </div>
   );

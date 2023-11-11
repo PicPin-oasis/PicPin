@@ -29,7 +29,7 @@ module.exports = {
           3: "#FBB3A4",
           2: "#FDD9D1",
           1: "#FEECE8",
-          0: "#FFF7F5"
+          0: "#FFF7F5",
         },
         grayscale: {
           100: "#030303",
@@ -44,9 +44,16 @@ module.exports = {
           10: "#E6E6E6",
           5: "#F3F3F3",
         },
-        red: "#FF0000",
-        green: "#33E95B",
-      }
+        marks: {
+          6: "#FF0000",
+          5: "#FF9901",
+          4: "#FFE500",
+          3: "#38D12B",
+          2: "#359EFF",
+          1: "#180399",
+          0: "#B426F6",
+        },
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

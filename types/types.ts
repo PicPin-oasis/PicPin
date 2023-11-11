@@ -66,7 +66,6 @@ export interface ColorMarkerProps {
 }
 
 export interface ColorPickerProps extends ColorMarkerProps {
-  color: string;
   index: number;
 }
 
