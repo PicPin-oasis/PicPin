@@ -1,10 +1,10 @@
 import axiosInstance from "./instance";
-import { getImageAddressProps } from "@/types/types";
+import { GetImageAddressProps } from "@/types/types";
 
 export const getImageAddress = async ({
   longitude,
   latitude,
-}: getImageAddressProps) => {
+}: GetImageAddressProps) => {
   try {
     const response = await axiosInstance.get(
       `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}`,

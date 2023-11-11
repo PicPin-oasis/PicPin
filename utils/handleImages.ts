@@ -1,5 +1,5 @@
 import { SelectImageProps, DeleteImageProps } from "@/types/types";
-import { getImageInformation } from "./getImageInformation";
+// import { getImageInformation } from "./getImageInformation";
 
 export const selectImage = ({
   event,
