@@ -12,7 +12,7 @@ const nextConfig = {
       },
     ];
   },
-  output: 'standalone',
+  output: "standalone",
   trailingSlash: true,
 };
 

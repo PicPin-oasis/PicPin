@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { PersistGate } from "redux-persist/integration/react";
 import { ChildrenProps } from "@/types/types";
+import { Header } from "@/components/common/Header";
+import { Navbar } from "@/components/common/Navbar";
 
 const Provider = ({ children }: ChildrenProps) => {
   const queryClient = new QueryClient();
@@ -12,7 +14,11 @@ const Provider = ({ children }: ChildrenProps) => {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <ReduxProvider store={store}>
-        <PersistGate persistor={persistor}>{children}</PersistGate>
+        <PersistGate persistor={persistor}>
+          <Header />
+          {children}
+          <Navbar />
+        </PersistGate>
       </ReduxProvider>
     </QueryClientProvider>
   );

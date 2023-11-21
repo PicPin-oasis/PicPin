@@ -10,14 +10,14 @@ const Button = ({ text, onClick, image, classNames }: ButtonProps) => {
   >(() => onClick && onClick(), [onClick]);
   return (
     <button
-      className={`text-lg text-center w-80 px-7 py-3 rounded-lg bg-white border-solid border-[1px] border-slate-200 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out cursor-pointer ${classNames}`}
+      className={`flex items-center justify-center gap-1 text-center text-xs font-bold w-36 py-2 rounded-lg shadow bg-primary-6 text-white border-none cursor-pointer ${classNames}`}
       onClick={onClickCallback}
     >
       {text}
       {image && (
         <Image
-          width="25"
-          height="25"
+          width="15"
+          height="15"
           src={image}
           alt={image}
           priority

@@ -42,7 +42,7 @@ module.exports = {
           30: "#B3B3B3",
           20: "#CCCCCC",
           10: "#E6E6E6",
-          5: "#F3F3F3",
+          5: "#F7F7F7",
         },
         marks: {
           6: "#FF0000",
