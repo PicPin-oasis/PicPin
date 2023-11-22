@@ -1,18 +1,19 @@
 "use client";
 
 import { WhiteButton } from "@/components/common/WhiteButton";
-import plusImg from "@assets/svg/plus.svg";
+import addPhoto from "@assets/svg/photo_add.svg";
+import { UploaderButtonProps } from "@/types/types";
 
-export const UploaderButton = () => {
-  const classNames =
-    "flex justify-center items-center w-48 gap-1 whitespace-nowrap hover:border-[1.5px]";
+export const UploaderButton = ({ onClick }: UploaderButtonProps) => {
+  const classNames = "flex justify-center items-center gap-1 whitespace-nowrap";
   return (
     <WhiteButton
-      text={"포스트 등록하기"}
-      image={plusImg}
+      text={"사진 등록"}
+      image={addPhoto}
       imageWidth={20}
       imageHeight={20}
       classNames={classNames}
+      onClick={onClick}
     />
   );
 };
