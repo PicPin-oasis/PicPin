@@ -8,20 +8,19 @@ import mainImg2 from "@assets/svg/main2.svg";
 import InfoText from "./InfoText";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
-import KakaoLoginModal from "../login/KaKaoLoginModal";
 import { login } from "@/apis/axios/login";
 import { setAccessToken } from "@/redux/accessTokenSlice";
 import { useModal } from "@/hooks/useModal";
 import arrow from "@assets/svg/arrow.svg";
+import { getKaKaoLoginURL } from "@/utils/getKakaoLoginURL";
 
 export default function HomePageLayout() {
   const router = useRouter();
   const { accessToken } = useAppSelector((state) => state.accessToken);
   const dispatch = useAppDispatch();
-  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const handleButtonClick = () => {
     if (!accessToken) {
-      handleOpenModal();
+      getKaKaoLoginURL();
     } else {
       router.push("/map");
     }
@@ -53,7 +52,6 @@ export default function HomePageLayout() {
         />
         <Image className="w-full h-48" src={mainImg2} alt="mainImg2" priority />
       </div>
-      {isModalOpen && <KakaoLoginModal onCloseModal={handleCloseModal} />}
     </div>
   );
 }

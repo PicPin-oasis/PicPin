@@ -7,6 +7,7 @@ import profile from "@assets/svg/profile_off.svg";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { clearAccessToken } from "@/redux/accessTokenSlice";
 import { useRouter } from "next/navigation";
+import { getKaKaoLoginURL } from "@/utils/getKakaoLoginURL";
 
 export const Header = () => {
   const { accessToken } = useAppSelector((state) => state.accessToken);
@@ -15,8 +16,7 @@ export const Header = () => {
 
   const handleLoginButton = () => {
     if (!accessToken) {
-      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
-      window.location.href = kakaoURL;
+      getKaKaoLoginURL();
     } else {
       router.push("/");
       dispatch(clearAccessToken());
