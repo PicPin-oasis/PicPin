@@ -41,10 +41,6 @@ export interface UserInformationSliceProps {
   profileImageUrl: string;
 }
 
-export interface UploaderButtonProps {
-  handleOpenModal: () => void;
-}
-
 export interface PostFormProps {
   images: string;
   title: string;
@@ -111,5 +107,9 @@ export interface GetImageAddressProps {
 
 export interface CreatePresignedURLProps {
   filename: string;
+  accessToken: string;
+}
+export interface CreateAllPresignedURLsProps {
+  filenames: string[];
   accessToken: string;
 }

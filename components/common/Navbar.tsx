@@ -14,7 +14,7 @@ export const Navbar = () => {
   const links = [
     { href: "/map", src: [mapOff, mapOn] },
     { href: "/album", src: [bookmarkOff, bookmarkOn] },
-    { href: "/post", src: [photoOff, photoOn] },
+    { href: "/photo", src: [photoOff, photoOn] },
   ];
   const pathname = usePathname();
   const isActivePath = (href: string) => pathname.includes(href);

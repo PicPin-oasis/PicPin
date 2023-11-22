@@ -1,7 +1,7 @@
 import ModalWrapper from "@/components/common/ModalWrapper";
 import { ModalWrapperProps } from "@/types/types";
-import PostForm from "./PostForm";
-
+import PostForm from "./PhotoForm";
+// 삭제 예정 컴포넌트
 export const PostModal = ({ onCloseModal }: ModalWrapperProps) => {
   return (
     <ModalWrapper

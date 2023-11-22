@@ -1,14 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { PostFormProps, FileWithPreview } from "@/types/types";
 import { Text } from "@/components/common/Text";
 import { Calendar } from "./Calendar";
 import { ColorMarker } from "./ColorMarker";
 import { Input } from "@/components/common/Input";
-import { OrangeButton } from "@/components/common/OrangeButton";
+import { WhiteButton } from "@/components/common/WhiteButton";
 import { ImageUploader } from "./ImageUploader";
+import {
+  createAllPresignedURLs,
+  createPresignedURL,
+} from "@/apis/axios/createPresignedURL";
 
 export default function PostForm() {
   const {
@@ -23,8 +28,16 @@ export default function PostForm() {
   const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
     [],
   );
-  const onSubmit = handleSubmit((data) => {
+  const { accessToken } = useAppSelector((state) => state.accessToken);
+
+  const onSubmit = handleSubmit(async (data) => {
+    // event.preventDefault();
     console.log(data);
+    const filenames = filesAndPreviews.map((item) => item.file.name);
+
+    // await createPresignedURL({ filename, accessToken });
+    const presURLs = await createAllPresignedURLs({ filenames, accessToken });
+    console.log(presURLs);
   });
   useEffect(() => {
     setValue("marker_color_id", pickedColorNumber);
@@ -85,7 +98,7 @@ export default function PostForm() {
         pickedColorNumber={pickedColorNumber}
         setPickedColorNumber={setPickedColorNumber}
       />
-      <OrangeButton
+      <WhiteButton
         text="등록"
         classNames="absolute top-24 right-14 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out"
       />
