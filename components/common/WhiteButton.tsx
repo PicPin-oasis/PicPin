@@ -4,7 +4,7 @@ import { ButtonProps } from "@/types/types";
 import { useCallback } from "react";
 import Image from "next/image";
 
-export const OrangeButton = ({
+export const WhiteButton = ({
   text,
   onClick,
   image,
