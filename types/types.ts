@@ -41,13 +41,12 @@ export interface UserInformationSliceProps {
   profileImageUrl: string;
 }
 
-export interface PostFormProps {
+export interface PhotoFormProps {
   images: string;
   title: string;
   taken_photo_address: string;
   taken_photo_date: string;
   memo?: string;
-  marker_color_id: number;
   album?: string;
 }
 
@@ -56,20 +55,11 @@ export interface CalendarProps {
   setSelectedDate: (value: string) => void;
 }
 
-export interface ColorMarkerProps {
-  pickedColorNumber: number;
-  setPickedColorNumber: (value: number) => void;
-}
-
-export interface ColorPickerProps extends ColorMarkerProps {
-  index: number;
-}
-
 export interface InputProps {
   classNames?: string;
   placeholder: string;
-  register: UseFormRegister<PostFormProps>;
-  name: keyof PostFormProps;
+  register: UseFormRegister<PhotoFormProps>;
+  name: keyof PhotoFormProps;
   rules?: RegisterOptions;
 }
 
@@ -79,7 +69,7 @@ export interface FileWithPreview {
 }
 
 export interface ImageUploaderProps {
-  register: UseFormRegister<PostFormProps>;
+  register: UseFormRegister<PhotoFormProps>;
   filesAndPreviews: FileWithPreview[];
   setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
@@ -112,4 +102,7 @@ export interface CreatePresignedURLProps {
 export interface CreateAllPresignedURLsProps {
   filenames: string[];
   accessToken: string;
+}
+export interface UploaderButtonProps {
+  onClick: () => void;
 }

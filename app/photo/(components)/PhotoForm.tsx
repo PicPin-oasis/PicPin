@@ -3,10 +3,9 @@
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { PostFormProps, FileWithPreview } from "@/types/types";
+import { PhotoFormProps, FileWithPreview } from "@/types/types";
 import { Text } from "@/components/common/Text";
 import { Calendar } from "./Calendar";
-import { ColorMarker } from "./ColorMarker";
 import { Input } from "@/components/common/Input";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import { ImageUploader } from "./ImageUploader";
@@ -15,16 +14,15 @@ import {
   createPresignedURL,
 } from "@/apis/axios/createPresignedURL";
 
-export default function PostForm() {
+export default function PhotoForm() {
   const {
     register,
     handleSubmit,
     control,
     setValue,
     formState: { isSubmitting, isSubmitted, errors },
-  } = useForm<PostFormProps>();
+  } = useForm<PhotoFormProps>();
   // const [imageDate, setImageDate] = useState(new Date());
-  const [pickedColorNumber, setPickedColorNumber] = useState(0);
   const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
     [],
   );
@@ -39,9 +37,6 @@ export default function PostForm() {
     const presURLs = await createAllPresignedURLs({ filenames, accessToken });
     console.log(presURLs);
   });
-  useEffect(() => {
-    setValue("marker_color_id", pickedColorNumber);
-  }, [pickedColorNumber, setValue]);
 
   return (
     <form noValidate className="w-11/12 h-full pb-8 " onSubmit={onSubmit}>
@@ -91,12 +86,6 @@ export default function PostForm() {
         name="memo"
         rules={{ maxLength: 100 }}
         classNames="text-start h-28"
-      />
-      <Text text="마커 색상" type="essential" />
-      <input type="hidden" {...register("marker_color_id")} />
-      <ColorMarker
-        pickedColorNumber={pickedColorNumber}
-        setPickedColorNumber={setPickedColorNumber}
       />
       <WhiteButton
         text="등록"
