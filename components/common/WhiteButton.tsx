@@ -17,7 +17,7 @@ export const WhiteButton = ({
   >(() => onClick && onClick(), [onClick]);
   return (
     <button
-      className={`text-sm text-center text-primary-6 w-fit px-2 py-1 rounded-md bg-white border-solid border-[1px] border-primary-6  cursor-pointer ${classNames}`}
+      className={`flex justify-center items-center text-sm font-semibold text-center text-primary-6 w-28 px-1 py-1 rounded-md bg-white border-solid border-[1px] border-primary-6  cursor-pointer ${classNames}`}
       onClick={onClickCallback}
     >
       {image && (
