@@ -2,13 +2,11 @@
 
 import KakaoMap from "./(componenets)/KaKaoMap";
 import FilterTab from "./(componenets)/FilterTab";
-import UploaderButtons from "./(componenets)/UploaderButtons";
 
 const MapPageLayout = () => {
   return (
-    <div className="relative w-full flex flex-col justify-center items-center">
+    <div className="relative w-full h-screen flex flex-col justify-center items-center">
       <FilterTab />
-      <UploaderButtons />
       <KakaoMap />
     </div>
   );

@@ -27,7 +27,7 @@ const KakaoMap = () => {
     }
   }, []);
   return (
-    <div className="w-full h-full py-7">
+    <div className="w-full h-full">
       <Script
         src={KAKAO_SDK_URL}
         strategy="afterInteractive"
@@ -39,7 +39,7 @@ const KakaoMap = () => {
             });
         }}
       />
-      {mapLoaded && <Map center={location} style={{ height: "500px" }}></Map>}
+      {mapLoaded && <Map center={location} style={{ height: "85vh" }}></Map>}
     </div>
   );
 };
