@@ -20,7 +20,7 @@ export const Navbar = () => {
   const isActivePath = (href: string) => pathname.includes(href);
 
   return (
-    <div className="w-full h-12 flex justify-around items-center fixed bottom-0">
+    <div className="w-full h-12 z-10 bg-white flex justify-around items-center fixed bottom-0">
       {links.map(({ href, src }) => (
         <Link key={href} href={href}>
           <Image
