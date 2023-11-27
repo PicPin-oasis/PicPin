@@ -8,7 +8,7 @@ import mainImg2 from "@assets/svg/main2.svg";
 import InfoText from "./InfoText";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
-import { login } from "@/apis/axios/login";
+import { login } from "@/apis/axios/user/login";
 import { setAccessToken } from "@/redux/accessTokenSlice";
 import { useModal } from "@/hooks/useModal";
 import arrow from "@assets/svg/arrow.svg";

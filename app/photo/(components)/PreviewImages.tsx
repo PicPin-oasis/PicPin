@@ -15,8 +15,8 @@ export const PreviewImages = ({
           <Image
             src={item.previewUrl}
             alt="previewImg"
-            width={113}
-            height={121}
+            width={106}
+            height={106}
             priority
             className="object-cover rounded-md"
           />

@@ -17,8 +17,8 @@ export const Calendar = ({ selectedDate, setSelectedDate }: CalendarProps) => {
       maxDate={new Date()}
       selected={parsedDate}
       onChange={handleChangeDate}
-      placeholderText="2000.00.00"
-      className="focus:outline-none text-sm w-2/3 px-2 py-1 focus:border-[1.5px] rounded-md border-solid border-[1px] border-primary-6 shadow "
+      placeholderText="첫번째 사진의 날짜 정보를 가져옵니다."
+      className="focus:outline-none text-sm w-full py-3 mt-2.5 focus:border-[1.5px] rounded-md border-solid border-[1px] border-primary-6 shadow "
     />
   );
 };

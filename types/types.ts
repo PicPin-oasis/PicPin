@@ -99,10 +99,28 @@ export interface CreatePresignedURLProps {
   filename: string;
   accessToken: string;
 }
+
 export interface CreateAllPresignedURLsProps {
   filenames: string[];
   accessToken: string;
 }
+
 export interface UploaderButtonProps {
   onClick: () => void;
+}
+
+export interface TextareaProps {
+  classNames?: string;
+  placeholder: string;
+  register: UseFormRegister<PhotoFormProps>;
+  name: keyof PhotoFormProps;
+  rules?: RegisterOptions;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+}
+
+export interface AlbumProps {
+  id: number;
+  title: string;
+  cover_image_url: string;
 }
