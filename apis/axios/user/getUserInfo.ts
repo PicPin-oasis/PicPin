@@ -1,4 +1,4 @@
-import axiosInstance from "./instance";
+import axiosInstance from "../instance";
 import { AccessTokenProps } from "@/types/types";
 
 export const getUserInfo = async ({ accessToken }: AccessTokenProps) => {
