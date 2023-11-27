@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "./Provider";
 import { ChildrenProps } from "@/types/types";
+import { Header } from "@/components/common/Header";
+import { Navbar } from "@/components/common/Navbar";
 
 export const metadata: Metadata = {
   title: "PICPIN",
@@ -15,11 +17,17 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body className="mobile:w-full tablet:w-11/12">
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-        <Provider>{children}</Provider>
+        <Provider>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
+          <div className="flex flex-col w-full h-full">
+            <Header />
+            <div className="grow">{children}</div>
+            <Navbar />
+          </div>
+        </Provider>
       </body>
     </html>
   );

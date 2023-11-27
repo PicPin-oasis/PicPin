@@ -12,13 +12,15 @@ const PhotoPageLayout = () => {
     setIsFormOpen(true);
   };
   return (
-    <div className="w-11/12 h-full flex flex-col justify-center items-center gap-4 px-2">
+    <div className="w-full h-full flex flex-col justify-center items-center gap-4">
       {isFormOpen ? (
         <PhotoForm />
       ) : (
         <>
-          <div className="w-full flex justify-between mobile:justify-around">
-            <FilterTab />
+          <div className="flex justify-between mobile:justify-around mobile:gap-2 ">
+            <div className="flex justify-between items-start gap-2">
+              <FilterTab />
+            </div>
             <UploaderButton onClick={handleOpenPhotoForm} />
           </div>
           <PhotoList />
