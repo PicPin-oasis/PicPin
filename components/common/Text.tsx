@@ -6,8 +6,8 @@ import essentialIcon from "@assets/svg/essential.svg";
 
 export const Text = ({ text, type, classNames }: TextProps) => {
   return (
-    <div className={`flex items-center gap-1 ${classNames}`}>
-      <h3>{text}</h3>
+    <div className={`flex items-center gap-1 mt-8 ${classNames}`}>
+      <b>{text}</b>
       {type === "essential" && (
         <Image
           width="8"
