@@ -10,6 +10,14 @@ const nextConfig = {
         source: "/accounts/my-profile",
         destination: "https://api.picpin.life/accounts/my-profile",
       },
+      {
+        source: "/albums",
+        destination: "https://api.picpin.life/albums",
+      },
+      {
+        source: "/photos/upload-url",
+        destination: "https://api.picpin.life/photos/upload-url",
+      },
     ];
   },
   output: "standalone",
