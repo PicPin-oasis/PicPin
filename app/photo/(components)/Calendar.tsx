@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarProps } from "@/types/types";
 import { useEffect } from "react";
+import { dateFormatter } from "@/utils/dateFormatter";
 
 export const Calendar = ({
   imageInfo,
@@ -12,13 +13,9 @@ export const Calendar = ({
 }: CalendarProps) => {
   const parsedDate = selectedDate ? new Date(selectedDate) : null;
   const handleChangeDate = (date: Date) => {
-    console.log("date:: ", date);
-    console.log("date:: ", date.toISOString().split("T")); // ['2023-11-08', '00:00:00.000Z']
-    setSelectedDate(date ? date.toISOString().split("T")[0] : ""); // '2023-11-08'
+    const changedDateFormat = dateFormatter(date);
+    setSelectedDate(changedDateFormat); // '2023-11-08'
   };
-  // console.log("imageInfo:: ", imageInfo);
-  // console.log("selectedDate:: ", selectedDate);
-  // console.log("parsedDate:: ", parsedDate);
   useEffect(() => {
     // imageInfo.date가 유효하고, selectedDate가 null인 경우
     if (imageInfo.date && !selectedDate) {

@@ -17,6 +17,7 @@
     "axios": "^1.6.0",
     "commitlint": "^18.2.0",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "exif-js": "^2.3.0",
     "next": "13.4.10",
