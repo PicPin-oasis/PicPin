@@ -9,6 +9,7 @@ import { selectImage, deleteImage } from "@/utils/handleImages";
 
 export const ImageUploader = ({
   register,
+  setImageInfo,
   filesAndPreviews,
   setFilesAndPreviews,
 }: ImageUploaderProps) => {
@@ -19,6 +20,7 @@ export const ImageUploader = ({
     try {
       const imageInformation = await selectImage({
         event,
+        setImageInfo,
         filesAndPreviews,
         setFilesAndPreviews,
       });

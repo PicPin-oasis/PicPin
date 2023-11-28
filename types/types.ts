@@ -51,6 +51,7 @@ export interface PhotoFormProps {
 }
 
 export interface CalendarProps {
+  imageInfo: ImageInfoProps;
   selectedDate: string;
   setSelectedDate: (value: string) => void;
 }
@@ -70,6 +71,7 @@ export interface FileWithPreview {
 
 export interface ImageUploaderProps {
   register: UseFormRegister<PhotoFormProps>;
+  setImageInfo: Dispatch<SetStateAction<ImageInfoProps>>;
   filesAndPreviews: FileWithPreview[];
   setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
@@ -81,6 +83,7 @@ export interface PreviewImagesProps {
 
 export interface SelectImageProps {
   event: React.ChangeEvent<HTMLInputElement>;
+  setImageInfo: Dispatch<SetStateAction<ImageInfoProps>>;
   filesAndPreviews: FileWithPreview[];
   setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
@@ -123,4 +126,15 @@ export interface AlbumProps {
   id: number;
   title: string;
   cover_image_url: string;
+}
+
+export interface ImageInfoProps {
+  date: string;
+  lat: number;
+  lon: number;
+}
+
+export interface Fraction {
+  numerator: number;
+  denominator: number;
 }

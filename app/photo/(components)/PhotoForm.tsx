@@ -3,7 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { PhotoFormProps, FileWithPreview } from "@/types/types";
+import { PhotoFormProps, FileWithPreview, ImageInfoProps } from "@/types/types";
 import { Text } from "@/components/common/Text";
 import { Calendar } from "./Calendar";
 import { Input } from "@/components/common/Input";
@@ -24,30 +24,29 @@ export default function PhotoForm() {
     setValue,
     formState: { isSubmitting, isSubmitted, errors },
   } = useForm<PhotoFormProps>();
-  // const [imageDate, setImageDate] = useState(new Date());
+  const { accessToken } = useAppSelector((state) => state.accessToken);
   const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
     [],
   );
   const [textValue, setTextValue] = useState<string>("");
-  const { accessToken } = useAppSelector((state) => state.accessToken);
-  const [albumList, setAlbumList] = useState([]);
-
-  const [location, setLocation] = useState<string>("");
+  const [imageInfo, setImageInfo] = useState<ImageInfoProps>({
+    date: "",
+    lat: 0,
+    lon: 0,
+  });
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     const filenames = filesAndPreviews.map((item) => item.file.name);
-
-    // await createPresignedURL({ filename, accessToken });
     const presURLs = await createAllPresignedURLs({ filenames, accessToken });
     console.log(presURLs);
   });
-
   return (
     <div className="grow w-full h-full bg-primary-0">
       <form noValidate className="mx-5 " onSubmit={onSubmit}>
         <Text text="사진 선택" type="essential" />
         <ImageUploader
           register={register}
+          setImageInfo={setImageInfo}
           filesAndPreviews={filesAndPreviews}
           setFilesAndPreviews={setFilesAndPreviews}
         />
@@ -86,6 +85,7 @@ export default function PhotoForm() {
             name="taken_photo_date"
             render={({ field }) => (
               <Calendar
+                imageInfo={imageInfo}
                 selectedDate={field.value}
                 setSelectedDate={field.onChange}
               />

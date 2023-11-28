@@ -1,21 +1,31 @@
-import { SelectImageProps, DeleteImageProps } from "@/types/types";
-// import { getImageInformation } from "./getImageInformation";
+import {
+  SelectImageProps,
+  DeleteImageProps,
+  ImageInfoProps,
+} from "@/types/types";
+import { getImageInformation } from "./getImageInformation";
 
 export const selectImage = ({
   event,
+  setImageInfo,
   filesAndPreviews,
   setFilesAndPreviews,
 }: SelectImageProps) => {
   return new Promise((resolve, reject) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-
       if (file) {
         // 이미지 정보(위치/날짜) 받아오는 함수
-        // getImageInformation(file).then(info => {
-        //   console.log(info);
-        //   resolve(info);
-        // });
+        getImageInformation(file).then((info) => {
+          console.log("인포::", info);
+          const formattedDate = info.date.split(" ")[0].replace(/:/g, "-");
+          setImageInfo({
+            date: formattedDate,
+            lat: info.lat,
+            lon: info.lon,
+          });
+          resolve(info);
+        });
 
         const previewUrl = URL.createObjectURL(file);
         setFilesAndPreviews((prev) => [...prev, { file, previewUrl }]);
