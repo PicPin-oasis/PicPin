@@ -97,7 +97,7 @@ export default function PhotoForm() {
           placeholder="이 곳에서의 추억을 자유롭게 적어주세요! ex. 엄마랑 오랜만에 바다 여행! 바다 바람 시원하고 좋아~ :)"
           register={register}
           name="memo"
-          rules={{ maxLength: 100 }}
+          rules={{ maxLength: 300 }}
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
         />
