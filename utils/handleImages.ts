@@ -3,7 +3,7 @@ import {
   DeleteImageProps,
   ImageInfoProps,
 } from "@/types/types";
-import { getImageInformation } from "./getImageInformation";
+import { getImageInfo } from "./getImageInfo";
 
 export const selectImage = ({
   event,
@@ -16,20 +16,21 @@ export const selectImage = ({
       const file = event.target.files[0];
       if (file) {
         // 이미지 정보(위치/날짜) 받아오는 함수
-        getImageInformation(file).then((info) => {
-          console.log("인포::", info);
-          const formattedDate = info.date.split(" ")[0].replace(/:/g, "-");
-          setImageInfo({
+        getImageInfo(file).then((info) => {
+          const formattedDate = info.date
+            ? info.date.split(" ")[0].replace(/:/g, "-")
+            : "";
+          setImageInfo((prev) => ({
+            ...prev,
             date: formattedDate,
             lat: info.lat,
             lon: info.lon,
-          });
+          }));
           resolve(info);
         });
 
         const previewUrl = URL.createObjectURL(file);
         setFilesAndPreviews((prev) => [...prev, { file, previewUrl }]);
-        console.log(filesAndPreviews);
       }
       if (filesAndPreviews.length >= 10) {
         alert("사진은 최대 10장까지 업로드 가능합니다.");

@@ -128,10 +128,14 @@ export interface AlbumProps {
   cover_image_url: string;
 }
 
-export interface ImageInfoProps {
+export interface GetImageInfoProps {
   date: string;
   lat: number | null;
   lon: number | null;
+}
+
+export interface ImageInfoProps extends GetImageInfoProps {
+  bcode: number | null;
 }
 
 export interface Fraction {
@@ -140,8 +144,9 @@ export interface Fraction {
 }
 
 export interface DaumPostCodePopupProps {
-  setAddress: React.Dispatch<React.SetStateAction<string>>;
-  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setAddress: Dispatch<React.SetStateAction<string>>;
+  setIsPopupOpen: Dispatch<React.SetStateAction<boolean>>;
+  setImageInfo: Dispatch<SetStateAction<ImageInfoProps>>;
 }
 
 export interface PostPhotosProps {
@@ -150,7 +155,7 @@ export interface PostPhotosProps {
   memo?: string;
   x: string;
   y: string;
-  province_code: number;
+  bcode: number;
   taken_photo_address: string;
   taken_photo_date: string;
   photo_urls: string[];
@@ -158,7 +163,7 @@ export interface PostPhotosProps {
 }
 
 export interface SelectBoxProps {
-  setAlbumId: React.Dispatch<SetStateAction<number>>;
+  setAlbumId: Dispatch<SetStateAction<number>>;
 }
 export interface CustomSelectBoxProps extends SelectBoxProps {
   albumList: AlbumProps[];
