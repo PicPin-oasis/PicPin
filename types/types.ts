@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseFormRegister, RegisterOptions } from "react-hook-form";
+import { Address } from "react-daum-postcode";
 
 export interface TextProps {
   text: string;
@@ -137,4 +138,9 @@ export interface ImageInfoProps {
 export interface Fraction {
   numerator: number;
   denominator: number;
+}
+
+export interface DaumPostCodePopupProps {
+  setAddress: React.Dispatch<React.SetStateAction<string>>;
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

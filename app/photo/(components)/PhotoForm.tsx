@@ -9,12 +9,10 @@ import { Calendar } from "./Calendar";
 import { Input } from "@/components/common/Input";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import { ImageUploader } from "./ImageUploader";
-import {
-  createAllPresignedURLs,
-  createPresignedURL,
-} from "@/apis/axios/photos/createPresignedURL";
+import { createAllPresignedURLs } from "@/apis/axios/photos/createPresignedURL";
 import { Textarea } from "@/components/common/Textarea";
 import { SelectBox } from "@/app/photo/(components)/SelectBox";
+import { DaumPostCodePopup } from "./DaumPostCodePopup";
 
 export default function PhotoForm() {
   const {
@@ -34,6 +32,14 @@ export default function PhotoForm() {
     lat: 0,
     lon: 0,
   });
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [address, setAddress] = useState(
+    "첫번째 사진의 위치 정보를 가져옵니다.",
+  );
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     const filenames = filesAndPreviews.map((item) => item.file.name);
@@ -67,14 +73,25 @@ export default function PhotoForm() {
         <label className="text-xs">
           주소가 잘못되었다면 직접 수정해보세요!
         </label>
-        <Input
-          placeholder="첫번째 사진의 위치 정보를 가져옵니다."
-          name="taken_photo_address"
-          register={register}
-          rules={{
+        <input
+          type="hidden"
+          {...register("taken_photo_address", {
             required: "주소를 입력해주세요",
-          }}
+          })}
+          value={address || ""}
         />
+        <div
+          className="text-sm w-full py-3 rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow cursor-pointer"
+          onClick={handleOpenPopup}
+        >
+          <div className="pl-2">{address}</div>
+        </div>
+        {isPopupOpen && (
+          <DaumPostCodePopup
+            setAddress={setAddress}
+            setIsPopupOpen={setIsPopupOpen}
+          />
+        )}
         <div className="flex flex-col">
           <Text text="날짜" type="essential" />
           <label className="text-xs">
