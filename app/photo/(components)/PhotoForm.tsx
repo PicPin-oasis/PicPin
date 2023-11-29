@@ -13,6 +13,7 @@ import { createAllPresignedURLs } from "@/apis/axios/photos/createPresignedURL";
 import { Textarea } from "@/components/common/Textarea";
 import { SelectBox } from "@/app/photo/(components)/SelectBox";
 import { DaumPostCodePopup } from "./DaumPostCodePopup";
+import { getImageAddress } from "@/apis/axios/photos/getImageAddress";
 
 export default function PhotoForm() {
   const {
@@ -29,8 +30,8 @@ export default function PhotoForm() {
   const [textValue, setTextValue] = useState<string>("");
   const [imageInfo, setImageInfo] = useState<ImageInfoProps>({
     date: "",
-    lat: 0,
-    lon: 0,
+    lat: null,
+    lon: null,
   });
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [address, setAddress] = useState(
@@ -39,6 +40,21 @@ export default function PhotoForm() {
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
+  // 이미지 정보 업데이트 로직 수정
+  useEffect(() => {
+    if (imageInfo.lat !== null && imageInfo.lon !== null) {
+      // 메타데이터에 위치 없을 경우
+      if (imageInfo.lat + imageInfo.lon === 0) {
+        setAddress("위치 정보가 없습니다. 직접 검색해보세요 !");
+      } else {
+        // 메타데이터에 위치 있는 경우 > 좌표를 주소로 변환
+        getImageAddress({
+          lat: imageInfo.lat,
+          lon: imageInfo.lon,
+        }).then((res) => setAddress(res.address.address_name));
+      }
+    }
+  }, [imageInfo]);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);

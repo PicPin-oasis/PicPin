@@ -95,8 +95,8 @@ export interface DeleteImageProps {
 }
 
 export interface GetImageAddressProps {
-  longitude: string;
-  latitude: string;
+  lat: number;
+  lon: number;
 }
 
 export interface CreatePresignedURLProps {
@@ -131,8 +131,8 @@ export interface AlbumProps {
 
 export interface ImageInfoProps {
   date: string;
-  lat: number;
-  lon: number;
+  lat: number | null;
+  lon: number | null;
 }
 
 export interface Fraction {
@@ -144,3 +144,6 @@ export interface DaumPostCodePopupProps {
   setAddress: React.Dispatch<React.SetStateAction<string>>;
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+// 1. 이미지의 메타데이터가 있을 시 lat lon으로 위치 조회해서 setAddress 업데이트
+// 2. 주소 검색 api로 주소 검색 시에 주소의 법정동 코드 / 위도 / 경도 가져오기
