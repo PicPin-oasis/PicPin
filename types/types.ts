@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseFormRegister, RegisterOptions } from "react-hook-form";
-import { Address } from "react-daum-postcode";
 
 export interface TextProps {
   text: string;
@@ -145,5 +144,22 @@ export interface DaumPostCodePopupProps {
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// 1. 이미지의 메타데이터가 있을 시 lat lon으로 위치 조회해서 setAddress 업데이트
-// 2. 주소 검색 api로 주소 검색 시에 주소의 법정동 코드 / 위도 / 경도 가져오기
+export interface PostPhotosProps {
+  accessToken: string;
+  place_name: string;
+  memo?: string;
+  x: string;
+  y: string;
+  province_code: number;
+  taken_photo_address: string;
+  taken_photo_date: string;
+  photo_urls: string[];
+  album_id?: number;
+}
+
+export interface SelectBoxProps {
+  setAlbumId: React.Dispatch<SetStateAction<number>>;
+}
+export interface CustomSelectBoxProps extends SelectBoxProps {
+  albumList: AlbumProps[];
+}

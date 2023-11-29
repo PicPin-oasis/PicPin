@@ -38,6 +38,7 @@ export default function PhotoForm() {
     "첫번째 사진의 위치 정보를 가져옵니다.",
   );
   const [bcode, setBcode] = useState<number>(0);
+  const [albumId, setAlbumId] = useState<number>(100);
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -148,7 +149,7 @@ export default function PhotoForm() {
           onChange={(e) => setTextValue(e.target.value)}
         />
         <Text text="앨범 선택" />
-        <SelectBox />
+        <SelectBox setAlbumId={setAlbumId} />
         <WhiteButton
           text="등록"
           classNames="float-right mt-12 mb-20 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out"

@@ -1,22 +1,20 @@
 "use client";
 
-import { useGetAlbumList } from "@/apis/axios/album/getAlbumList";
-import { useAppSelector } from "@/redux/store";
-import { AlbumProps } from "@/types/types";
+import { CustomSelectBoxProps, AlbumProps } from "@/types/types";
 import { useState } from "react";
 
-interface Props {
-  albumList: string[];
-}
-
-export const CustomSelectBox = ({ albumList }: Props) => {
+export const CustomSelectBox = ({
+  albumList,
+  setAlbumId,
+}: CustomSelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("앨범 선택");
 
   const toggling = () => setIsOpen(!isOpen);
 
-  const onOptionClicked = (albumTitle: string) => () => {
-    setSelectedOption(albumTitle);
+  const onOptionClicked = (album: AlbumProps) => () => {
+    setSelectedOption(album.title);
+    setAlbumId(album.id);
     setIsOpen(false);
   };
 
@@ -31,13 +29,13 @@ export const CustomSelectBox = ({ albumList }: Props) => {
       {isOpen && (
         <div className="absolute w-full bg-white border-[1px] border-solid border-primary-6 rounded-md shadow-lg z-10 mt-1">
           {albumList.length ? (
-            albumList.map((albumTitle: string) => (
+            albumList.map((album: AlbumProps) => (
               <div
-                key={albumTitle}
+                key={album.title}
                 className="pl-2 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={onOptionClicked(albumTitle)}
+                onClick={onOptionClicked(album)}
               >
-                {albumTitle}
+                {album.title}
               </div>
             ))
           ) : (
