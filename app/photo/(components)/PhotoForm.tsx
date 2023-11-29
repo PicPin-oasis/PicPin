@@ -14,13 +14,13 @@ import { Textarea } from "@/components/common/Textarea";
 import { SelectBox } from "@/app/photo/(components)/SelectBox";
 import { DaumPostCodePopup } from "./DaumPostCodePopup";
 import { getImageAddress } from "@/apis/axios/photos/getImageAddress";
+import { getImageBcode } from "@/apis/axios/photos/getImageBcode";
 
 export default function PhotoForm() {
   const {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { isSubmitting, isSubmitted, errors },
   } = useForm<PhotoFormProps>();
   const { accessToken } = useAppSelector((state) => state.accessToken);
@@ -37,6 +37,7 @@ export default function PhotoForm() {
   const [address, setAddress] = useState(
     "첫번째 사진의 위치 정보를 가져옵니다.",
   );
+  const [bcode, setBcode] = useState<number>(0);
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -51,8 +52,20 @@ export default function PhotoForm() {
         getImageAddress({
           lat: imageInfo.lat,
           lon: imageInfo.lon,
-        }).then((res) => setAddress(res.address.address_name));
-      }
+        })
+          .then((res) => {
+            setAddress(res.address.address_name);
+          })
+          .catch((err) => console.log(err));
+      } // 법정동 코드 조회
+      getImageBcode({
+        lat: imageInfo.lat,
+        lon: imageInfo.lon,
+      })
+        .then((res) => {
+          setBcode(parseInt(res.code.slice(0, 2)));
+        })
+        .catch((err) => console.log(err));
     }
   }, [imageInfo]);
 
