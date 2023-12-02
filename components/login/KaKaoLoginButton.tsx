@@ -1,9 +1,11 @@
 "use client";
 import message from "@assets/png/message.png";
 import Image from "next/image";
-import { KaKaoLoginProps } from "@/types/types";
 
-const KakaoLoginButton = ({ onKakaoLogin }: KaKaoLoginProps) => {
+interface Props {
+  onKakaoLogin?: () => void;
+}
+const KakaoLoginButton = ({ onKakaoLogin }: Props) => {
   return (
     <div
       onClick={onKakaoLogin}

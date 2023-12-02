@@ -1,16 +1,25 @@
-import {
-  SelectImageProps,
-  DeleteImageProps,
-  ImageInfoProps,
-} from "@/types/types";
+import { FileWithPreview, ImageInfoProps } from "@/types/types";
 import { getImageInfo } from "./getImageInfo";
+import { SetStateAction } from "react";
+
+interface Props {
+  event: React.ChangeEvent<HTMLInputElement>;
+  setImageInfo: React.Dispatch<SetStateAction<ImageInfoProps>>;
+  filesAndPreviews: FileWithPreview[];
+  setFilesAndPreviews: React.Dispatch<SetStateAction<FileWithPreview[]>>;
+}
+
+interface DeleteImageProps {
+  target: FileWithPreview;
+  setFilesAndPreviews: React.Dispatch<SetStateAction<FileWithPreview[]>>;
+}
 
 export const selectImage = ({
   event,
   setImageInfo,
   filesAndPreviews,
   setFilesAndPreviews,
-}: SelectImageProps) => {
+}: Props) => {
   return new Promise((resolve, reject) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -20,12 +29,11 @@ export const selectImage = ({
           const formattedDate = info.date
             ? info.date.split(" ")[0].replace(/:/g, "-")
             : "";
-          setImageInfo((prev) => ({
-            ...prev,
+          setImageInfo({
             date: formattedDate,
             lat: info.lat,
             lon: info.lon,
-          }));
+          });
           resolve(info);
         });
 

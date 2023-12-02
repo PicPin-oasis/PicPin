@@ -1,10 +1,15 @@
 "use client";
 
-import { TextProps } from "@/types/types";
 import Image from "next/image";
 import essentialIcon from "@assets/svg/essential.svg";
 
-export const Text = ({ text, type, classNames }: TextProps) => {
+interface Props {
+  text: string;
+  type?: string;
+  classNames?: string;
+}
+
+export const Text = ({ text, type, classNames }: Props) => {
   return (
     <div className={`flex items-center gap-1 mt-8 ${classNames}`}>
       <b>{text}</b>

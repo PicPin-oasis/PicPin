@@ -2,9 +2,11 @@
 
 import { WhiteButton } from "@/components/common/WhiteButton";
 import addPhoto from "@assets/svg/photo_add.svg";
-import { UploaderButtonProps } from "@/types/types";
 
-export const UploaderButton = ({ onClick }: UploaderButtonProps) => {
+interface Props {
+  onClick: () => void;
+}
+export const UploaderButton = ({ onClick }: Props) => {
   const classNames = "flex justify-center items-center gap-1 whitespace-nowrap";
   return (
     <WhiteButton

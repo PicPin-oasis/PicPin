@@ -1,14 +1,18 @@
 import { useQuery } from "react-query";
 import axiosInstance from "../instance";
 import { queryKeyFactory } from "../queryKeyFactory";
+import { AlbumProps } from "@/types/types";
 
 export const getAlbumList = async (accessToken: string) => {
   try {
-    const response = await axiosInstance.get("/albums", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+    const response = await axiosInstance.get<{ albums: AlbumProps[] }>(
+      "/albums",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     return response.data.albums;
   } catch (error) {
     console.log(error);

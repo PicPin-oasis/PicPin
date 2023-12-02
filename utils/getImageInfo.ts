@@ -1,7 +1,11 @@
 import EXIF from "exif-js";
-import { Fraction, GetImageInfoProps } from "@/types/types";
+import { ImageInfoProps } from "@/types/types";
 
-export const convertDMSArrayToDD = (dmsArray: Fraction[]) => {
+interface Props {
+  numerator: number;
+  denominator: number;
+}
+export const convertDMSArrayToDD = (dmsArray: Props[]) => {
   const degrees = dmsArray[0].numerator / dmsArray[0].denominator;
   const minutes = dmsArray[1].numerator / dmsArray[1].denominator;
   const seconds = dmsArray[2].numerator / dmsArray[2].denominator;
@@ -10,7 +14,7 @@ export const convertDMSArrayToDD = (dmsArray: Fraction[]) => {
 };
 
 // EXIF 데이터를 처리하는 함수
-export const getImageInfo = (file: any): Promise<GetImageInfoProps> => {
+export const getImageInfo = (file: any): Promise<ImageInfoProps> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = function () {

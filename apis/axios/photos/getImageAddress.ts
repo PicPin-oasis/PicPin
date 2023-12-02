@@ -1,7 +1,11 @@
 import axios from "axios";
-import { GetImageAddressProps } from "@/types/types";
 
-export const getImageAddress = async ({ lat, lon }: GetImageAddressProps) => {
+interface Props {
+  lat: number;
+  lon: number;
+}
+
+export const getImageAddress = async ({ lat, lon }: Props) => {
   try {
     const response = await axios.get(
       `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`,

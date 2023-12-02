@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
-import { UserInformationSliceProps } from "@/types/types";
 
-const initialState: UserInformationSliceProps = {
+interface Props {
+  username: string;
+  profileImageUrl: string;
+}
+const initialState: Props = {
   username: "",
   profileImageUrl: "",
 };
