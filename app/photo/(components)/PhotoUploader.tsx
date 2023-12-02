@@ -100,40 +100,32 @@ export default function PhotoUploader() {
   }, [imageInfo]);
   return (
     <div className="grow w-full h-full bg-primary-0 box-border px-5">
-      <div>
-        <Text text="사진 선택" type="essential" />
-        <ImageUploader
-          setImageInfo={setImageInfo}
-          filesAndPreviews={filesAndPreviews}
-          setFilesAndPreviews={setFilesAndPreviews}
+      <Text text="사진 선택" type="essential" />
+      <ImageUploader
+        setImageInfo={setImageInfo}
+        filesAndPreviews={filesAndPreviews}
+        setFilesAndPreviews={setFilesAndPreviews}
+      />
+      <Text text="장소명" type="essential" />
+      <Input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="어디서 찍으셨나요? ex. 경포해변, 광명동굴"
+      />
+      <Text text="주소" type="essential" />
+      <label className="text-xs">주소가 잘못되었다면 직접 수정해보세요!</label>
+      <div
+        className="box-border text-sm w-full pl-2 py-3 rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow cursor-pointer"
+        onClick={handleOpenPopup}
+      >
+        {address}
+      </div>
+      {isPopupOpen && (
+        <DaumPostCodePopup
+          handleChangeSubmitInfo={handleChangeSubmitInfo}
+          setIsPopupOpen={setIsPopupOpen}
         />
-      </div>
-      <div>
-        <Text text="장소명" type="essential" />
-        <Input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="어디서 찍으셨나요? ex. 경포해변, 광명동굴"
-        />
-      </div>
-      <div>
-        <Text text="주소" type="essential" />
-        <label className="text-xs">
-          주소가 잘못되었다면 직접 수정해보세요!
-        </label>
-        <div
-          className="box-border text-sm w-full pl-2 py-3 rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow cursor-pointer"
-          onClick={handleOpenPopup}
-        >
-          {address}
-        </div>
-        {isPopupOpen && (
-          <DaumPostCodePopup
-            handleChangeSubmitInfo={handleChangeSubmitInfo}
-            setIsPopupOpen={setIsPopupOpen}
-          />
-        )}
-      </div>
+      )}
       <div className="flex flex-col">
         <Text text="날짜" type="essential" />
         <label className="text-xs">
@@ -144,19 +136,15 @@ export default function PhotoUploader() {
           handleChangeSubmitInfo={handleChangeSubmitInfo}
         />
       </div>
-      <div>
-        <Text text="메모" />
-        <Textarea
-          placeholder="이 곳에서의 추억을 자유롭게 적어주세요! ex. 엄마랑 오랜만에 바다 여행! 바다 바람 시원하고 좋아~ :)"
-          value={memo}
-          onChange={(e) => SetMemo(e.target.value)}
-          limit={300}
-        />
-      </div>
-      <div>
-        <Text text="앨범 선택" />
-        <AlbumListSelectBox handleChangeSubmitInfo={handleChangeSubmitInfo} />
-      </div>
+      <Text text="메모" />
+      <Textarea
+        placeholder="이 곳에서의 추억을 자유롭게 적어주세요! ex. 엄마랑 오랜만에 바다 여행! 바다 바람 시원하고 좋아~ :)"
+        value={memo}
+        onChange={(e) => SetMemo(e.target.value)}
+        limit={300}
+      />
+      <Text text="앨범 선택" />
+      <AlbumListSelectBox handleChangeSubmitInfo={handleChangeSubmitInfo} />
       <WhiteButton
         text="등록"
         onClick={onSubmit}
