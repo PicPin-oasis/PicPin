@@ -2,26 +2,29 @@
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CalendarProps } from "@/types/types";
-import { useEffect } from "react";
 import { dateFormatter } from "@/utils/dateFormatter";
+import { ChangeSubmitInfoProps, PhotoUploaderProps } from "@/types/types";
 
-export const Calendar = ({
-  imageInfo,
-  selectedDate,
-  setSelectedDate,
-}: CalendarProps) => {
-  const parsedDate = selectedDate ? new Date(selectedDate) : null;
+interface Props {
+  submitInfo: PhotoUploaderProps;
+  handleChangeSubmitInfo: ({
+    targetKey,
+    changeValue,
+  }: ChangeSubmitInfoProps) => void;
+}
+
+export const Calendar = ({ submitInfo, handleChangeSubmitInfo }: Props) => {
+  const { date } = submitInfo;
+  const parsedDate = date ? new Date(date) : null;
+
   const handleChangeDate = (date: Date) => {
     const changedDateFormat = dateFormatter(date);
-    setSelectedDate(changedDateFormat); // '2023-11-08'
+    handleChangeSubmitInfo({
+      targetKey: "date",
+      changeValue: changedDateFormat,
+    }); // '2023-11-08'
   };
-  useEffect(() => {
-    // imageInfo.date가 유효하고, selectedDate가 null인 경우
-    if (imageInfo.date && !selectedDate) {
-      setSelectedDate(imageInfo.date);
-    }
-  }, [imageInfo, selectedDate, setSelectedDate]);
+
   return (
     <DatePicker
       dateFormat="yyyy.MM.dd"
@@ -31,7 +34,7 @@ export const Calendar = ({
       selected={parsedDate}
       onChange={handleChangeDate}
       placeholderText="첫번째 사진의 날짜 정보를 가져옵니다."
-      className="focus:outline-none text-sm w-full pl-2 py-3 mt-2.5 focus:border-[1.5px] rounded-md border-solid border-[1px] border-primary-6 shadow "
+      className="box-border focus:outline-none text-sm w-full pl-2 py-3 mt-2.5 focus:border-[1.5px] rounded-md border-solid border-[1px] border-primary-6 shadow "
     />
   );
 };

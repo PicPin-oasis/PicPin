@@ -1,16 +1,27 @@
 "use client";
 
-import { DaumPostCodePopupProps } from "@/types/types";
-import { useRef, useEffect } from "react";
+import { ChangeSubmitInfoProps } from "@/types/types";
+import { useRef, useEffect, Dispatch } from "react";
 import DaumPostcode, { Address } from "react-daum-postcode";
 
+export interface Props {
+  handleChangeSubmitInfo: ({
+    targetKey,
+    changeValue,
+  }: ChangeSubmitInfoProps) => void;
+  setIsPopupOpen: Dispatch<React.SetStateAction<boolean>>;
+}
+
 export const DaumPostCodePopup = ({
-  setAddress,
+  handleChangeSubmitInfo,
   setIsPopupOpen,
-}: DaumPostCodePopupProps) => {
+}: Props) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const handleComplete = (data: Address) => {
-    setAddress(data.address);
+    handleChangeSubmitInfo({
+      targetKey: "address",
+      changeValue: data.address,
+    });
     setIsPopupOpen(false);
   };
   const handleClickOutside = (event: MouseEvent) => {

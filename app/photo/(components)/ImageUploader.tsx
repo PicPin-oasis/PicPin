@@ -1,24 +1,29 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect, SetStateAction, Dispatch } from "react";
 import addPhoto from "@assets/svg/photo_add.svg";
-import { ImageUploaderProps, FileWithPreview } from "@/types/types";
+import { ImageInfoProps, FileWithPreview } from "@/types/types";
 import Image from "next/image";
 import { PreviewImages } from "./PreviewImages";
 import { selectImage, deleteImage } from "@/utils/handleImages";
 
+export interface Props {
+  setImageInfo: Dispatch<SetStateAction<ImageInfoProps>>;
+  filesAndPreviews: FileWithPreview[];
+  setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
+}
+
 export const ImageUploader = ({
-  register,
   setImageInfo,
   filesAndPreviews,
   setFilesAndPreviews,
-}: ImageUploaderProps) => {
+}: Props) => {
   const fileInputRef = useRef(null);
   const handleSelectImage = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     try {
-      const imageInformation = await selectImage({
+      await selectImage({
         event,
         setImageInfo,
         filesAndPreviews,
@@ -53,7 +58,6 @@ export const ImageUploader = ({
         </div>
       </label>
       <input
-        {...register("images")}
         type="file"
         accept="image/*"
         className="hidden"

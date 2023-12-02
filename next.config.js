@@ -15,8 +15,8 @@ const nextConfig = {
         destination: "https://api.picpin.life/albums",
       },
       {
-        source: "/photos/upload-url",
-        destination: "https://api.picpin.life/photos/upload-url",
+        source: "/photos",
+        destination: "https://api.picpin.life/photos",
       },
     ];
   },
