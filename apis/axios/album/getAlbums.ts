@@ -3,7 +3,7 @@ import axiosInstance from "../instance";
 import { queryKeyFactory } from "../queryKeyFactory";
 import { AlbumProps } from "@/types/types";
 
-export const getAlbumList = async (accessToken: string) => {
+export const getAlbums = async (accessToken: string) => {
   try {
     const response = await axiosInstance.get<{ albums: AlbumProps[] }>(
       "/albums",
@@ -19,9 +19,9 @@ export const getAlbumList = async (accessToken: string) => {
   }
 };
 
-export const useGetAlbumList = (accessToken: string) => {
+export const useGetAlbums = (accessToken: string) => {
   return useQuery({
-    queryKey: queryKeyFactory.GET_ALBUM_LIST(accessToken),
-    queryFn: () => getAlbumList(accessToken),
+    queryKey: queryKeyFactory.GET_ALBUMS(accessToken),
+    queryFn: () => getAlbums(accessToken),
   });
 };

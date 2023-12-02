@@ -1,6 +1,10 @@
 export const queryKeyFactory = {
-  GET_ALBUM_LIST: (accessToken: string): [string, string] => [
-    "ALBUM_LIST",
+  GET_ALBUMS: (accessToken: string): [string, string] => [
+    "ALBUMS",
+    `${accessToken}`,
+  ],
+  GET_PHOTOS: (accessToken: string): [string, string] => [
+    "PHOTOS",
     `${accessToken}`,
   ],
 };
