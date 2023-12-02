@@ -1,6 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-import { UseFormRegister, RegisterOptions } from "react-hook-form";
-
 export interface ButtonProps {
   text?: string;
   onClick?: () => void;
@@ -43,13 +40,6 @@ export interface PhotoFormProps {
 export interface FileWithPreview {
   file: File;
   previewUrl: string;
-}
-
-export interface ImageUploaderProps {
-  register: UseFormRegister<PhotoFormProps>;
-  setImageInfo: Dispatch<SetStateAction<ImageInfoProps>>;
-  filesAndPreviews: FileWithPreview[];
-  setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
 
 export interface PreviewImagesProps {
