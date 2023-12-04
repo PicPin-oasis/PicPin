@@ -23,6 +23,11 @@ export const selectImage = ({
   return new Promise((resolve, reject) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      const MAX_FILE_SIZE = 15 * 1024 * 1024;
+      if (file.size > MAX_FILE_SIZE) {
+        alert("파일 크기는 15MB를 초과할 수 없습니다.");
+        return;
+      }
       if (file) {
         // 이미지 정보(위치/날짜) 받아오는 함수
         getImageInfo(file).then((info) => {
