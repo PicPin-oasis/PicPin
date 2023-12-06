@@ -11,15 +11,10 @@ interface Props {
   photo_cards: PhotoCardsProps[];
 }
 
-export const getPhotos = async (accessToken: string) => {
+export const getPhotos = async () => {
   try {
     const response = await axiosInstance.get<{ photo_sections: Props[] }>(
       "/photo-sections",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
     );
     return response.data.photo_sections;
   } catch (error) {
@@ -27,9 +22,9 @@ export const getPhotos = async (accessToken: string) => {
   }
 };
 
-export const useGetPhotos = (accessToken: string) => {
+export const useGetPhotos = () => {
   return useQuery({
-    queryKey: queryKeyFactory.GET_PHOTOS(accessToken),
-    queryFn: () => getPhotos(accessToken),
+    queryKey: queryKeyFactory.GET_PHOTOS(),
+    queryFn: () => getPhotos(),
   });
 };

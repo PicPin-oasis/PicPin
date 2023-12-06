@@ -19,6 +19,7 @@ import { AlbumListSelectBox } from "./AlbumListSelectBox";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import { usePostPhotosMutation } from "@/apis/axios/photos/postPhotos";
 import { createAllPresignedURLs } from "@/apis/axios/photos/createPresignedURL";
+import { uploadAllImgsS3 } from "@/apis/axios/photos/uploadImgS3";
 
 export default function PhotoUploader() {
   const { mutate: updateMutate, isLoading: updateLoading } =
@@ -38,6 +39,7 @@ export default function PhotoUploader() {
   const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
     [],
   );
+  console.log(filesAndPreviews);
   const [title, setTitle] = useState<string>("");
   const [memo, SetMemo] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -53,18 +55,38 @@ export default function PhotoUploader() {
   );
 
   const onSubmit = async () => {
-    const filenames = filesAndPreviews.map((item) => item.file.name);
-    const presURLs = await createAllPresignedURLs({ filenames, accessToken });
-    const upload_urls = presURLs.map(({ key }) => key);
-    updateMutate({
-      accessToken,
-      place_name: title,
-      taken_photo_address: address,
-      taken_photo_date: date,
-      photo_urls: upload_urls,
-      ...(memo.length ? { memo: memo } : {}),
-      ...(albumId !== undefined ? { album_id: albumId } : {}),
+    // 1. CreateAllPresignedURL 요청 보내기
+    const imgInfos = filesAndPreviews.map((item) => ({
+      file: item.file,
+      filename: item.file.name,
+      presignedURL: { key: "", upload_url: "" },
+    }));
+    const filenames = imgInfos.map((item) => item.filename);
+    const res = await createAllPresignedURLs(filenames);
+    console.log("imgInfos:: ", imgInfos);
+    console.log("res::", res);
+    // 2. CreateAllPresignedURL 응답을 요청 시 사용한 배열 원소에 함께 저장하기
+    imgInfos.forEach((item, idx) => {
+      item.presignedURL.key = res[idx].key;
+      item.presignedURL.upload_url = res[idx].upload_url;
     });
+    // 3. uploadAllImgsS3 요청 보내기
+    const uploadProps = imgInfos.map((item) => ({
+      uploadFile: item.file,
+      presignedUrl: item.presignedURL.upload_url,
+    }));
+    const uploadRes = await uploadAllImgsS3(uploadProps);
+    console.log("uploadRes:: ", uploadRes);
+    // 4. CreateAllPresignedURL 응답에서 key 값을 모은 배열을 updateMutate의 photo_urls에 담아 포스트 등록
+
+    // updateMutate({
+    //   place_name: title,
+    //   taken_photo_address: address,
+    //   taken_photo_date: date,
+    //   photo_urls: photo_urls,
+    //   ...(memo.length ? { memo: memo } : {}),
+    //   ...(albumId !== undefined ? { album_id: albumId } : {}),
+    // });
   };
 
   useEffect(() => {
@@ -100,19 +122,19 @@ export default function PhotoUploader() {
   }, [imageInfo]);
   return (
     <div className="grow w-full h-full bg-primary-0 box-border px-5">
-      <Text text="사진 선택" type="essential" />
+      <Text text="사진 선택" type="essential" classNames="mt-8" />
       <ImageUploader
         setImageInfo={setImageInfo}
         filesAndPreviews={filesAndPreviews}
         setFilesAndPreviews={setFilesAndPreviews}
       />
-      <Text text="장소명" type="essential" />
+      <Text text="장소명" type="essential" classNames="mt-8" />
       <Input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="어디서 찍으셨나요? ex. 경포해변, 광명동굴"
       />
-      <Text text="주소" type="essential" />
+      <Text text="주소" type="essential" classNames="mt-8" />
       <label className="text-xs">주소가 잘못되었다면 직접 수정해보세요!</label>
       <div
         className="box-border text-sm w-full pl-2 py-3 rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow cursor-pointer"
@@ -126,7 +148,7 @@ export default function PhotoUploader() {
           setIsPopupOpen={setIsPopupOpen}
         />
       )}
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-8">
         <Text text="날짜" type="essential" />
         <label className="text-xs">
           날짜가 잘못되었다면 직접 수정해보세요!
@@ -136,14 +158,14 @@ export default function PhotoUploader() {
           handleChangeSubmitInfo={handleChangeSubmitInfo}
         />
       </div>
-      <Text text="메모" />
+      <Text text="메모" classNames="mt-8" />
       <Textarea
         placeholder="이 곳에서의 추억을 자유롭게 적어주세요! ex. 엄마랑 오랜만에 바다 여행! 바다 바람 시원하고 좋아~ :)"
         value={memo}
         onChange={(e) => SetMemo(e.target.value)}
         limit={300}
       />
-      <Text text="앨범 선택" />
+      <Text text="앨범 선택" classNames="mt-8" />
       <AlbumListSelectBox handleChangeSubmitInfo={handleChangeSubmitInfo} />
       <WhiteButton
         text="등록"

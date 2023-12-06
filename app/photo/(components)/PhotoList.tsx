@@ -2,12 +2,10 @@
 
 import { useGetPhotos } from "@/apis/axios/photos/getPhotos";
 import { Text } from "@/components/common/Text";
-import { useAppSelector } from "@/redux/store";
 import { PhotoCard } from "./PhotoCard";
 
 export const PhotoList = () => {
-  const { accessToken } = useAppSelector((state) => state.accessToken);
-  const { data, isLoading, isError } = useGetPhotos(accessToken);
+  const { data, isLoading, isError } = useGetPhotos();
 
   if (isLoading) return <div>로딩 중... </div>;
   if (isError) return <div>잘못된 접근입니다 !</div>;

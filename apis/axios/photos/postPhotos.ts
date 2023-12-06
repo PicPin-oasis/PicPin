@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../instance";
-import { AccessTokenProps } from "@/types/types";
 
-interface Props extends AccessTokenProps {
+interface Props {
   album_id?: number;
   place_name: string;
   memo?: string;
@@ -12,7 +11,6 @@ interface Props extends AccessTokenProps {
 }
 
 export const postPhotos = async ({
-  accessToken,
   album_id,
   place_name,
   memo,
@@ -36,9 +34,6 @@ export const postPhotos = async ({
       taken_photo_address: taken_photo_address,
       taken_photo_date: taken_photo_date,
       photo_urls: photo_urls,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
     return response.data;
   } catch (error) {
