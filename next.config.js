@@ -15,10 +15,20 @@ const nextConfig = {
         destination: "https://api.picpin.life/albums",
       },
       {
-        source: "/photos",
-        destination: "https://api.picpin.life/photos",
+        source: "/photo-sections",
+        destination: "https://api.picpin.life/photo-sections",
       },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "image-store.picpin.life",
+        port: "",
+        pathname: "/images/**",
+      },
+    ],
   },
   output: "standalone",
   trailingSlash: true,
