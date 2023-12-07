@@ -23,9 +23,9 @@ export const selectImage = ({
   return new Promise((resolve, reject) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      const MAX_FILE_SIZE = 15 * 1024 * 1024;
+      const MAX_FILE_SIZE = 10 * 1024 * 1024;
       if (file.size > MAX_FILE_SIZE) {
-        alert("파일 크기는 15MB를 초과할 수 없습니다.");
+        alert("파일 크기는 10MB를 초과할 수 없습니다.");
         return;
       }
       if (file) {
