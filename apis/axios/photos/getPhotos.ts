@@ -12,14 +12,12 @@ interface Props {
 }
 
 export const getPhotos = async () => {
-  try {
-    const response = await axiosInstance.get<{ photo_sections: Props[] }>(
-      "/photo-sections",
-    );
-    return response.data.photo_sections;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await axiosInstance.get<{ photo_sections: Props[] }>(
+    "/photo-sections",
+  );
+
+  console.log("response:", response.data.photo_sections);
+  return response.data.photo_sections;
 };
 
 export const useGetPhotos = () => {
