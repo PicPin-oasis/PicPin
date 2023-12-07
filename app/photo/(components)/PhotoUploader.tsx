@@ -1,13 +1,11 @@
 "use client";
 
-import { useAppSelector } from "@/redux/store";
 import {
-  ChangeSubmitInfoProps,
   FileWithPreview,
   ImageInfoProps,
   PhotoUploaderProps,
 } from "@/types/types";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { ImageUploader } from "./ImageUploader";
 import { Text } from "@/components/common/Text";
 import { getImageAddress } from "@/apis/axios/photos/getImageAddress";
@@ -18,13 +16,23 @@ import { Textarea } from "@/components/common/Textarea";
 import { AlbumListSelectBox } from "./AlbumListSelectBox";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import { usePostPhotosMutation } from "@/apis/axios/photos/postPhotos";
-import { createAllPresignedURLs } from "@/apis/axios/photos/createPresignedURL";
-import { uploadAllImgsS3 } from "@/apis/axios/photos/uploadImgS3";
+import { usePostPhotosUploadS3 } from "@/apis/axios/photos/postPhotosUploadS3";
 
-export default function PhotoUploader() {
-  const { mutate: updateMutate, isLoading: updateLoading } =
-    usePostPhotosMutation();
-  const { accessToken } = useAppSelector((state) => state.accessToken);
+interface Props {
+  handleTogglePhotoForm: () => void;
+}
+
+export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
+  const {
+    mutate: updateMutate,
+    isSuccess: isUpdateSuccess,
+    isLoading: updateLoading,
+  } = usePostPhotosMutation();
+  const {
+    mutateAsync: uploadS3Mutate,
+    isSuccess: isUploadS3Success,
+    isLoading: uploadS3Loading,
+  } = usePostPhotosUploadS3();
   const [submitInfo, setSubmitInfo] = useState<PhotoUploaderProps>({
     address: "첫번째 사진의 위치 정보를 가져옵니다.",
     date: "",
@@ -39,55 +47,35 @@ export default function PhotoUploader() {
   const [filesAndPreviews, setFilesAndPreviews] = useState<FileWithPreview[]>(
     [],
   );
-  console.log(filesAndPreviews);
+  const [calendarPlaceholder, setCalendarPlaceholder] = useState<string>(
+    "첫번째 사진의 날짜 정보를 가져옵니다.",
+  );
   const [title, setTitle] = useState<string>("");
   const [memo, SetMemo] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
-
-  const handleChangeSubmitInfo = useCallback(
-    ({ targetKey, changeValue }: ChangeSubmitInfoProps) => {
-      setSubmitInfo((prev) => ({ ...prev, [targetKey]: changeValue }));
-    },
-    [setSubmitInfo],
-  );
-
   const onSubmit = async () => {
-    // 1. CreateAllPresignedURL 요청 보내기
-    const imgInfos = filesAndPreviews.map((item) => ({
-      file: item.file,
-      filename: item.file.name,
-      presignedURL: { key: "", upload_url: "" },
-    }));
-    const filenames = imgInfos.map((item) => item.filename);
-    const res = await createAllPresignedURLs(filenames);
-    console.log("imgInfos:: ", imgInfos);
-    console.log("res::", res);
-    // 2. CreateAllPresignedURL 응답을 요청 시 사용한 배열 원소에 함께 저장하기
-    imgInfos.forEach((item, idx) => {
-      item.presignedURL.key = res[idx].key;
-      item.presignedURL.upload_url = res[idx].upload_url;
+    // 1. postPhotoUploadS3 요청
+    const formData = new FormData();
+    filesAndPreviews.forEach((item) => formData.append("files", item.file));
+    const data = await uploadS3Mutate(formData);
+    // 2. 응답값에서 upload_file_paths 을 usePostPhotosMutation 에 담아서 게시글 등록
+    updateMutate({
+      place_name: title,
+      taken_photo_address: address,
+      taken_photo_date: date,
+      photo_urls: data.upload_file_paths,
+      ...(memo.length ? { memo: memo } : {}),
+      ...(albumId !== undefined ? { album_id: albumId } : {}),
     });
-    // 3. uploadAllImgsS3 요청 보내기
-    const uploadProps = imgInfos.map((item) => ({
-      uploadFile: item.file,
-      presignedUrl: item.presignedURL.upload_url,
-    }));
-    const uploadRes = await uploadAllImgsS3(uploadProps);
-    console.log("uploadRes:: ", uploadRes);
-    // 4. CreateAllPresignedURL 응답에서 key 값을 모은 배열을 updateMutate의 photo_urls에 담아 포스트 등록
-
-    // updateMutate({
-    //   place_name: title,
-    //   taken_photo_address: address,
-    //   taken_photo_date: date,
-    //   photo_urls: photo_urls,
-    //   ...(memo.length ? { memo: memo } : {}),
-    //   ...(albumId !== undefined ? { album_id: albumId } : {}),
-    // });
   };
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      handleTogglePhotoForm();
+    }
+  }, [isUpdateSuccess]);
 
   useEffect(() => {
     if (imageInfo.date) {
@@ -99,11 +87,11 @@ export default function PhotoUploader() {
     if (imageInfo.lat !== null && imageInfo.lon !== null) {
       // 메타데이터에 위치 없을 경우
       if (imageInfo.lat + imageInfo.lon === 0) {
-        handleChangeSubmitInfo({
-          targetKey: "address",
-          changeValue: "위치 정보가 없습니다. 직접 검색해보세요 !",
-        });
-        // 날짜 탭도 위와 같이 변경해야함. 추후 작업 예정
+        setSubmitInfo((prev) => ({
+          ...prev,
+          address: "주소를 검색하세요.",
+        }));
+        setCalendarPlaceholder("날짜를 입력하세요.");
       } else {
         // 메타데이터에 위치 있는 경우 > 좌표를 주소로 변환
         getImageAddress({
@@ -111,10 +99,10 @@ export default function PhotoUploader() {
           lon: imageInfo.lon,
         })
           .then((res) => {
-            handleChangeSubmitInfo({
-              targetKey: "address",
-              changeValue: res.address.address_name,
-            });
+            setSubmitInfo((prev) => ({
+              ...prev,
+              address: res.address.address_name,
+            }));
           })
           .catch((err) => console.log(err));
       }
@@ -144,7 +132,7 @@ export default function PhotoUploader() {
       </div>
       {isPopupOpen && (
         <DaumPostCodePopup
-          handleChangeSubmitInfo={handleChangeSubmitInfo}
+          setSubmitInfo={setSubmitInfo}
           setIsPopupOpen={setIsPopupOpen}
         />
       )}
@@ -155,7 +143,8 @@ export default function PhotoUploader() {
         </label>
         <Calendar
           submitInfo={submitInfo}
-          handleChangeSubmitInfo={handleChangeSubmitInfo}
+          setSubmitInfo={setSubmitInfo}
+          calendarPlaceholder={calendarPlaceholder}
         />
       </div>
       <Text text="메모" classNames="mt-8" />
@@ -166,7 +155,7 @@ export default function PhotoUploader() {
         limit={300}
       />
       <Text text="앨범 선택" classNames="mt-8" />
-      <AlbumListSelectBox handleChangeSubmitInfo={handleChangeSubmitInfo} />
+      <AlbumListSelectBox setSubmitInfo={setSubmitInfo} />
       <WhiteButton
         text="등록"
         onClick={onSubmit}

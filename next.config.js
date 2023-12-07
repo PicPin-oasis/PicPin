@@ -18,6 +18,10 @@ const nextConfig = {
         source: "/photo-sections",
         destination: "https://api.picpin.life/photo-sections",
       },
+      {
+        source: "/photos/upload",
+        destination: "https://api.picpin.life/photos/upload",
+      },
     ];
   },
   images: {
