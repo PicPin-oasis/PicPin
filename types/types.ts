@@ -64,8 +64,3 @@ export interface PhotoUploaderProps {
   date: string;
   albumId?: number;
 }
-
-export interface ChangeSubmitInfoProps {
-  targetKey: keyof PhotoUploaderProps;
-  changeValue: string | string[] | number;
-}
