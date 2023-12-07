@@ -16,7 +16,6 @@ export const getPhotos = async () => {
     "/photo-sections",
   );
 
-  console.log("response:", response.data.photo_sections);
   return response.data.photo_sections;
 };
 

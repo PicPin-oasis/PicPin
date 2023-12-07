@@ -27,7 +27,8 @@ export const PhotoList = () => {
                 {item.photo_cards.map((photo) => (
                   <PhotoCard
                     src={photo.expose_image_url}
-                    key={photo.expose_image_url}
+                    key={photo.id}
+                    id={photo.id.toString()}
                   />
                 ))}
               </div>
