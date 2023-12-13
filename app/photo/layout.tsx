@@ -20,8 +20,16 @@ const PhotoPageLayout = () => {
         <div className="w-full box-border px-2 ">
           <div className="w-full flex justify-between pt-4 ">
             {/* <FilterTab /> */}
-            <WhiteButton text={"지역 선택"} onClick={() => {}} />
-            <WhiteButton text={"날짜 선택"} onClick={() => {}} />
+            <WhiteButton
+              text={"지역 선택"}
+              onClick={() => {}}
+              classNames="rounded-md"
+            />
+            <WhiteButton
+              text={"날짜 선택"}
+              onClick={() => {}}
+              classNames="rounded-md"
+            />
             <UploaderButton onClick={handleTogglePhotoForm} />
           </div>
           <PhotoList />
