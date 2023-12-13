@@ -6,15 +6,11 @@ import { PhotoCard } from "./PhotoCard";
 
 export const PhotoList = () => {
   const { data, isLoading, isError } = useGetPhotos();
-
-  if (isLoading) return <div>로딩 중... </div>;
-  if (isError) return <div>잘못된 접근입니다 !</div>;
-
   const sortedArr = data?.sort((a, b) =>
     b.taken_photo_date.localeCompare(a.taken_photo_date),
   );
-  console.log("data::", data);
-  console.log("sortedArr:: ", sortedArr);
+  if (isLoading) return <div>로딩 중... </div>;
+  if (isError) return <div>잘못된 접근입니다 !</div>;
 
   return (
     <div className="grow w-full">
@@ -23,7 +19,7 @@ export const PhotoList = () => {
           {sortedArr.map((item) => (
             <div key={item.taken_photo_date}>
               <Text text={item.taken_photo_date} />
-              <div className="grid grid-cols-4">
+              <div className="w-full grid grid-cols-4 place-items-center">
                 {item.photo_cards.map((photo) => (
                   <PhotoCard
                     src={photo.expose_image_url}
