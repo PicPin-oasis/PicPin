@@ -123,7 +123,7 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
         placeholder="어디서 찍으셨나요? ex. 경포해변, 광명동굴"
       />
       <Text text="주소" type="essential" classNames="mt-8" />
-      <label className="text-xs">주소가 잘못되었다면 직접 수정해보세요!</label>
+      <label className="text-sm">주소가 잘못되었다면 직접 수정해보세요!</label>
       <div
         className="box-border text-sm w-full pl-2 py-3 rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow cursor-pointer"
         onClick={handleOpenPopup}
@@ -138,7 +138,7 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
       )}
       <div className="flex flex-col mt-8">
         <Text text="날짜" type="essential" />
-        <label className="text-xs">
+        <label className="text-sm">
           날짜가 잘못되었다면 직접 수정해보세요!
         </label>
         <Calendar
@@ -159,7 +159,7 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
       <WhiteButton
         text="등록"
         onClick={onSubmit}
-        classNames="float-right mt-12 mb-20 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out"
+        classNames="rounded-md float-right mt-12 mb-20 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out"
       />
     </div>
   );

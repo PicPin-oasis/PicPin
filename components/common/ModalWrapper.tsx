@@ -16,7 +16,7 @@ const ModalWrapper = ({
         <div className="w-full flex justify-between">
           <h3>{title}</h3>
           <button
-            className="text-lg border-none bg-transparent cursor-pointer"
+            className="border-none bg-transparent cursor-pointer"
             onClick={onCloseModal}
           >
             X
