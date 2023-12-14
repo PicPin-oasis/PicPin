@@ -3,14 +3,16 @@
 import { useGetPhotos } from "@/apis/axios/photos/getPhotos";
 import { Text } from "@/components/common/Text";
 import { PhotoCard } from "./PhotoCard";
+import { Loading } from "@/components/common/Loading";
+import { Error } from "@/components/common/Error";
 
 export const PhotoList = () => {
   const { data, isLoading, isError } = useGetPhotos();
   const sortedArr = data?.sort((a, b) =>
     b.taken_photo_date.localeCompare(a.taken_photo_date),
   );
-  if (isLoading) return <div>로딩 중... </div>;
-  if (isError) return <div>잘못된 접근입니다 !</div>;
+  if (isLoading) return <Loading />;
+  if (isError) return <Error text="잘못된 접근입니다. 다시 시도해주세요." />;
 
   return (
     <div className="grow w-full">
