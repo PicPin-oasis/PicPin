@@ -24,7 +24,7 @@ const DetailPageLayout = () => {
     <div className="w-full h-full">
       <div className="w-full flex box-border px-5 justify-between">
         <div className="flex flex-col gap-1">
-          <b className="text-sm">{date}</b>
+          <Text text={date} classNames="text-sm" />
           <Text
             text={place_name ?? "사진 정보가 없습니다"}
             classNames="text-lg"
