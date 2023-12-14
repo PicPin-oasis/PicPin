@@ -5,7 +5,7 @@ import FilterTab from "./(componenets)/FilterTab";
 
 const MapPageLayout = () => {
   return (
-    <div className="relative w-full h-screen flex flex-col justify-center items-center">
+    <div className="relative w-full h-full flex flex-col justify-center items-center">
       <FilterTab />
       <KakaoMap />
     </div>
