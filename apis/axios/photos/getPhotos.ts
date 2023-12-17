@@ -6,15 +6,15 @@ interface PhotoCardsProps {
   id: number;
   expose_image_url: string;
 }
-interface Props {
+export interface GetPhotosProps {
   taken_photo_date: string;
   photo_cards: PhotoCardsProps[];
 }
 
 export const getPhotos = async () => {
-  const response = await axiosInstance.get<{ photo_sections: Props[] }>(
-    "/photo-sections",
-  );
+  const response = await axiosInstance.get<{
+    photo_sections: GetPhotosProps[];
+  }>("/photo-sections");
 
   return response.data.photo_sections;
 };

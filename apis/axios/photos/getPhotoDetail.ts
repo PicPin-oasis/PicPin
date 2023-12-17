@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import axiosInstance from "../instance";
 import { queryKeyFactory } from "../queryKeyFactory";
-interface Props {
+export interface PhotoDetailProps {
   id: number;
   place_name: string;
   memo: string;
@@ -9,7 +9,7 @@ interface Props {
   taken_photo_date: string;
 }
 export const getPhotoDetail = async (photoId: number) => {
-  const res = await axiosInstance.get<Props>(`/photos/${photoId}`);
+  const res = await axiosInstance.get<PhotoDetailProps>(`/photos/${photoId}`);
   return res.data;
 };
 
