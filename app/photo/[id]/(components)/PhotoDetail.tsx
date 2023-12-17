@@ -1,19 +1,45 @@
 "use client";
+import { useDeletePhotoMutation } from "@/apis/axios/photos/deletePhoto";
 import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
 import { Error } from "@/components/common/Error";
 import { Text } from "@/components/common/Text";
+import Toast from "@/components/common/Toast";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
+  const route = useRouter();
   const [toggle, setToggle] = useState(true);
+  const [toast, setToast] = useState(false);
+  const {
+    mutate: deleteMutation,
+    isSuccess: isDeleteSuccess,
+    isError: isDeleteError,
+  } = useDeletePhotoMutation({
+    onSuccess: () => {
+      setToast(true);
+      route.push("/photo");
+    },
+  });
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [setToast]);
+
   if (!data) {
     return <Error text="사진 정보가 없습니다." />;
   }
-  const { place_name, memo, expose_image_url, taken_photo_date } = data;
+  const { place_name, memo, expose_image_url, taken_photo_date, id } = data;
   const date = taken_photo_date.replaceAll("-", ".") ?? "날짜 정보가 없습니다.";
   const handleClickMemo = () => setToggle(!toggle);
+  const handleDeletePhoto = () => {
+    deleteMutation(id);
+  };
+
   return (
     <div className="w-full">
       <div className="w-full h-[80px] flex box-border px-5 justify-between">
@@ -31,6 +57,7 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
           />
           <WhiteButton
             text="삭제"
+            onClick={handleDeletePhoto}
             classNames="w-9 h-fit text-xs rounded-full"
           />
         </div>
@@ -54,6 +81,7 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
           </div>
         )}
       </div>
+      {toast && <Toast text="삭제되었습니다." />}
     </div>
   );
 };
