@@ -1,25 +1,19 @@
 "use client";
-import { useGetPhotoDetail } from "@/apis/axios/photos/getPhotoDetail";
+import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
 import { Error } from "@/components/common/Error";
-import { Loading } from "@/components/common/Loading";
 import { Text } from "@/components/common/Text";
 import { WhiteButton } from "@/components/common/WhiteButton";
 import Image from "next/image";
 import { useState } from "react";
 
-const DetailPageLayout = () => {
+const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
   const [toggle, setToggle] = useState(true);
-  const { data, isLoading, isError } = useGetPhotoDetail(50);
-  if (isLoading) {
-    return <Loading />;
-  }
-  if (isError || !data) {
+  if (!data) {
     return <Error text="사진 정보가 없습니다." />;
   }
   const { place_name, memo, expose_image_url, taken_photo_date } = data;
   const date = taken_photo_date.replaceAll("-", ".") ?? "날짜 정보가 없습니다.";
   const handleClickMemo = () => setToggle(!toggle);
-
   return (
     <div className="w-full h-full">
       <div className="w-full flex box-border px-5 justify-between">
@@ -63,4 +57,4 @@ const DetailPageLayout = () => {
     </div>
   );
 };
-export default DetailPageLayout;
+export default PhotoDetail;
