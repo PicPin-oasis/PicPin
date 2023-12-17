@@ -1,5 +1,5 @@
-import PhotoPageLayout from "./layout";
+import PhotoPageLayout from "./(components)/PhotoPageLayout";
 
-export default function PostPage() {
+export default function PhotoPage() {
   return <PhotoPageLayout />;
 }
