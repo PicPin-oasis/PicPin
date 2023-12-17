@@ -18,7 +18,7 @@ export const postPhotos = async ({
   taken_photo_date,
   photo_urls,
 }: Props) => {
-  const response = await axiosInstance.post("/photos", {
+  const { data } = await axiosInstance.post("/photos", {
     album_id: album_id,
     place_name: place_name,
     memo: memo,
@@ -26,7 +26,7 @@ export const postPhotos = async ({
     taken_photo_date: taken_photo_date,
     photo_urls: photo_urls,
   });
-  return response.data;
+  return data;
 };
 
 export const usePostPhotosMutation = () => {
