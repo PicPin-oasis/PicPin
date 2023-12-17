@@ -15,7 +15,7 @@ export const PhotoList = () => {
   if (isError) return <Error text="잘못된 접근입니다. 다시 시도해주세요." />;
   if (!data?.length) return <div>등록된 사진이 없습니다.</div>;
   return (
-    <div className="grow w-full">
+    <div className="h-[670px] w-full overflow-y-auto">
       <div className="flex flex-col gap-7 mt-5">
         {sortedArr?.map((item) => (
           <div key={item.taken_photo_date}>

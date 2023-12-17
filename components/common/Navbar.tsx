@@ -21,7 +21,7 @@ export const Navbar = () => {
   const isActivePath = (href: string) => pathname.includes(href);
 
   return (
-    <div className="w-full h-12 z-10 bg-white flex place-items-center fixed bottom-0">
+    <div className="w-full h-[48px] z-10 bg-white flex place-items-center">
       {links.map(({ href, src, text }) => (
         <Link
           key={href}

@@ -13,7 +13,7 @@ const PhotoPageLayout = () => {
     setIsFormOpen(!isFormOpen);
   };
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-1">
+    <div className="grow w-full flex flex-col justify-center items-center gap-1">
       {isFormOpen ? (
         <PhotoUploader handleTogglePhotoForm={handleTogglePhotoForm} />
       ) : (
