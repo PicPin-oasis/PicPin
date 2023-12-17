@@ -1,6 +1,5 @@
 import axiosInstance from "@/apis/axios/instance";
 import { GetPhotosProps } from "@/apis/axios/photos/getPhotos";
-import Image from "next/image";
 import { PhotoCard } from "../../(components)/PhotoCard";
 
 export const PhotoList = async () => {
