@@ -32,7 +32,10 @@ export default function HomePageLayout() {
 
     if (code && !accessToken) {
       login({ code })
-        .then((res) => dispatch(setAccessToken(res.access_token.payload)))
+        .then((res) => {
+          dispatch(setAccessToken(res.access_token.payload));
+          localStorage.setItem("accessToken", res.access_token.payload);
+        })
         .catch((err) => console.log(err));
     }
   }, [accessToken]);

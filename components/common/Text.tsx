@@ -11,7 +11,7 @@ interface Props {
 
 export const Text = ({ text, type, classNames }: Props) => {
   return (
-    <div className={`flex items-center gap-1 mt-8 ${classNames}`}>
+    <div className={`flex items-center gap-1 ${classNames}`}>
       <b>{text}</b>
       {type === "essential" && (
         <Image

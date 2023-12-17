@@ -15,6 +15,12 @@ module.exports = {
       laptop: "1024px",
       desktop: "1280px",
     },
+    fontSize: {
+      xs: "10px",
+      sm: "14px",
+      md: "18px",
+      lg: "22px",
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

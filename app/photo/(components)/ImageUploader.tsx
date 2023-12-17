@@ -22,16 +22,12 @@ export const ImageUploader = ({
   const handleSelectImage = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    try {
-      await selectImage({
-        event,
-        setImageInfo,
-        filesAndPreviews,
-        setFilesAndPreviews,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    await selectImage({
+      event,
+      setImageInfo,
+      filesAndPreviews,
+      setFilesAndPreviews,
+    }).catch((err) => console.log(err));
   };
   const handleDeleteImage = (target: FileWithPreview) => {
     deleteImage({ target, setFilesAndPreviews });

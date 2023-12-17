@@ -5,4 +5,12 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+axios.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+  config.headers.Authorization =
+    config.headers.Authorization ??
+    (accessToken ? `Bearer ${accessToken}` : "");
+  return config;
+});
+
 export default axiosInstance;
