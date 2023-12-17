@@ -1,6 +1,6 @@
 import axios from "axios";
 import { PresignedUrlProps } from "./createPresignedURL";
-
+// 백 로직 변경으로 제거된 api
 interface Props {
   presignedUrl: string;
   uploadFile: File;

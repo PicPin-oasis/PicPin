@@ -1,5 +1,5 @@
 import axiosInstance from "../instance";
-
+// 백 로직 변경으로 제거된 api
 export interface PresignedUrlProps {
   cloud_front_host: string;
   key: string;
