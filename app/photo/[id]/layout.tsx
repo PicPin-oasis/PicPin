@@ -1,20 +1,33 @@
-import axiosInstance from "@/apis/axios/instance";
+"use client";
+
+import { usePathname } from "next/navigation";
 import { PhotoDetail } from "./(components)/PhotoDetail";
-import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
 import { PhotoList } from "./(components)/PhotoList";
+import PhotoUploader from "../(components)/PhotoUploader";
+import { useAppSelector } from "@/redux/store";
+import { useGetPhotoDetail } from "@/apis/axios/photos/getPhotoDetail";
+import Error from "@/components/common/Error";
 
-interface LayoutProps {
-  params?: { id: string };
-}
+function PhotoDetailPageLayout() {
+  const id = parseInt(usePathname().split("/")[2]);
+  const { data, isLoading, isError } = useGetPhotoDetail(id);
+  const { editStatus } = useAppSelector((state) => state.editStatus);
 
-async function PhotoDetailPageLayout({ params }: LayoutProps) {
-  const { id } = params!;
-  const { data } = await axiosInstance.get<PhotoDetailProps>(`/photos/${id}`);
+  if (!data) {
+    return <Error text="사진 정보가 없습니다." />;
+  }
+
   return (
-    <div className="w-full h-full flex flex-col items-center gap-1">
-      <PhotoDetail data={data} />
-      <PhotoList />
-    </div>
+    <>
+      {editStatus ? (
+        <PhotoUploader editData={data} />
+      ) : (
+        <div className="w-full h-full flex flex-col items-center gap-1">
+          <PhotoDetail data={data} />
+          <PhotoList />
+        </div>
+      )}
+    </>
   );
 }
 
