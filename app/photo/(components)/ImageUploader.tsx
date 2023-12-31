@@ -13,7 +13,7 @@ export interface Props {
   setFilesAndPreviews: Dispatch<SetStateAction<FileWithPreview[]>>;
 }
 
-export const ImageUploader = ({
+const ImageUploader = ({
   setImageInfo,
   filesAndPreviews,
   setFilesAndPreviews,
@@ -69,3 +69,5 @@ export const ImageUploader = ({
     </div>
   );
 };
+
+export default ImageUploader;

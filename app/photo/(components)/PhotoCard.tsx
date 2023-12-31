@@ -7,7 +7,7 @@ interface Props {
   src: string;
   id: string;
 }
-export const PhotoCard = ({ src, id }: Props) => {
+const PhotoCard = ({ src, id }: Props) => {
   const router = useRouter();
   const handleImgClick = async (event: React.MouseEvent) => {
     const IID = +(event.target as HTMLImageElement).id;
@@ -27,3 +27,5 @@ export const PhotoCard = ({ src, id }: Props) => {
     </div>
   );
 };
+
+export default PhotoCard;

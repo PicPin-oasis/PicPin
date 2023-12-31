@@ -9,9 +9,9 @@ import bookmarkOn from "@assets/svg/bookmark_on.svg";
 import photoOff from "@assets/svg/photo_off.svg";
 import photoOn from "@assets/svg/photo_on.svg";
 import { usePathname } from "next/navigation";
-import { Text } from "./Text";
+import Text from "./Text";
 
-export const Navbar = () => {
+const Navbar = () => {
   const links = [
     { href: "/map", src: [mapOff, mapOn], text: "지도" },
     { href: "/album", src: [bookmarkOff, bookmarkOn], text: "앨범" },
@@ -46,3 +46,5 @@ export const Navbar = () => {
     </div>
   );
 };
+
+export default Navbar;

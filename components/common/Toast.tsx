@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Text } from "./Text";
+import Text from "./Text";
 import checkIcon from "@assets/svg/check.svg";
 interface Props {
   text: string;

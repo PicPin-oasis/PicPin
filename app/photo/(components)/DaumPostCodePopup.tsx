@@ -2,14 +2,14 @@
 
 import { PhotoUploaderProps } from "@/types/types";
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
-import DaumPostcode, { Address } from "react-daum-postcode";
+import DaumPostcode, { Address, DaumPostcodeEmbed } from "react-daum-postcode";
 
 export interface Props {
   setSubmitInfo: Dispatch<SetStateAction<PhotoUploaderProps>>;
   setIsPopupOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const DaumPostCodePopup = ({ setSubmitInfo, setIsPopupOpen }: Props) => {
+const DaumPostCodePopup = ({ setSubmitInfo, setIsPopupOpen }: Props) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const handleComplete = (data: Address) => {
     setSubmitInfo((prev) => ({ ...prev, address: data.address }));
@@ -40,3 +40,5 @@ export const DaumPostCodePopup = ({ setSubmitInfo, setIsPopupOpen }: Props) => {
     </div>
   );
 };
+
+export default DaumPostCodePopup;

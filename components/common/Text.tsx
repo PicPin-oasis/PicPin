@@ -9,7 +9,7 @@ interface Props {
   classNames?: string;
 }
 
-export const Text = ({ text, type, classNames }: Props) => {
+const Text = ({ text, type, classNames }: Props) => {
   return (
     <div className={`flex items-center gap-1 ${classNames}`}>
       <b>{text}</b>
@@ -26,3 +26,5 @@ export const Text = ({ text, type, classNames }: Props) => {
     </div>
   );
 };
+
+export default Text;

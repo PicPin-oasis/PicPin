@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "./Provider";
+import Header from "@/components/common/Header";
+import Navbar from "@/components/common/Navbar";
 import { ChildrenProps } from "@/types/types";
-import { Header } from "@/components/common/Header";
-import { Navbar } from "@/components/common/Navbar";
 
 export const metadata: Metadata = {
   title: "PICPIN",

@@ -9,7 +9,7 @@ import { clearAccessToken } from "@/redux/accessTokenSlice";
 import { useRouter } from "next/navigation";
 import { getKaKaoLoginURL } from "@/utils/getKakaoLoginURL";
 
-export const Header = () => {
+const Header = () => {
   const { accessToken } = useAppSelector((state) => state.accessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -45,3 +45,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default Header;

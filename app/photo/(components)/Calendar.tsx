@@ -1,10 +1,10 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { PhotoUploaderProps } from "@/types/types";
-import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   submitInfo: PhotoUploaderProps;
@@ -12,7 +12,7 @@ interface Props {
   calendarPlaceholder: string;
 }
 
-export const Calendar = ({
+const Calendar = ({
   submitInfo,
   setSubmitInfo,
   calendarPlaceholder,
@@ -38,3 +38,5 @@ export const Calendar = ({
     />
   );
 };
+
+export default Calendar;

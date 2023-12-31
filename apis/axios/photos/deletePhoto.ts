@@ -3,7 +3,6 @@ import axiosInstance from "../instance";
 
 const deletePhoto = async (photoId: number) => {
   const { data } = await axiosInstance.delete(`/photos/${photoId}`);
-  console.log(data);
   return data;
 };
 
