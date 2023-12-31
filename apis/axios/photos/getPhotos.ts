@@ -12,11 +12,11 @@ export interface GetPhotosProps {
 }
 
 export const getPhotos = async () => {
-  const response = await axiosInstance.get<{
+  const { data } = await axiosInstance.get<{
     photo_sections: GetPhotosProps[];
   }>("/photo-sections");
 
-  return response.data.photo_sections;
+  return data.photo_sections;
 };
 
 export const useGetPhotos = () => {

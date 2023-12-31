@@ -7,12 +7,12 @@ interface Props {
 }
 
 export const postPhotosUploadS3 = async (formData: FormData) => {
-  const res = await axiosInstance.post<Props>("photos/upload", formData, {
+  const { data } = await axiosInstance.post<Props>("photos/upload", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
-  return res.data;
+  return data;
 };
 
 export const usePostPhotosUploadS3 = () => {

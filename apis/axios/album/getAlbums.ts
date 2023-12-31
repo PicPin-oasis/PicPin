@@ -4,14 +4,8 @@ import { queryKeyFactory } from "../queryKeyFactory";
 import { AlbumProps } from "@/types/types";
 
 export const getAlbums = async () => {
-  try {
-    const response = await axiosInstance.get<{ albums: AlbumProps[] }>(
-      "/albums",
-    );
-    return response.data.albums;
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await axiosInstance.get<{ albums: AlbumProps[] }>("/albums");
+  return data.albums;
 };
 
 export const useGetAlbums = () => {
