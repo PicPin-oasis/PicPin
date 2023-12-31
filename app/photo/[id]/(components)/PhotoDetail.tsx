@@ -20,13 +20,15 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
   } = useDeletePhotoMutation({
     onSuccess: () => {
       setToast(true);
-      route.push("/photo");
+      setTimeout(() => {
+        route.push("/photo");
+      }, 2000);
     },
   });
   useEffect(() => {
     const timer = setTimeout(() => {
       setToast(false);
-    }, 3000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [setToast]);
 
