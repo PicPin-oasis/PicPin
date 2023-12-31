@@ -1,6 +1,6 @@
 "use client";
 
-import { WhiteButton } from "@/components/common/WhiteButton";
+import WhiteButton from "@/components/common/WhiteButton";
 import { useRouter } from "next/navigation";
 
 const FilterTab = () => {
