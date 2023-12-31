@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
-import { AccessTokenProps } from "@/types/types";
+interface Props {
+  accessToken: string;
+}
 
-const initialState: AccessTokenProps = {
+const initialState: Props = {
   accessToken: "",
 };
 

@@ -13,10 +13,6 @@ export interface LoginFormProps {
   password: string;
 }
 
-export interface AccessTokenProps {
-  accessToken: string;
-}
-
 export interface ChildrenProps {
   children?: React.ReactNode;
 }

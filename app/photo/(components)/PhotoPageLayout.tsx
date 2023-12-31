@@ -1,11 +1,10 @@
 "use client";
 
-import { PhotoList } from "./PhotoList";
-import { FilterTab } from "./FilterTab";
-import { UploaderButton } from "./UploaderButton";
 import { useState } from "react";
+import PhotoList from "./PhotoList";
+import FilterTab from "./FilterTab";
+import UploaderButton from "./UploaderButton";
 import PhotoUploader from "./PhotoUploader";
-import { WhiteButton } from "@/components/common/WhiteButton";
 
 const PhotoPageLayout = () => {
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);

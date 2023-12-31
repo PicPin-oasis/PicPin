@@ -6,7 +6,7 @@ interface Props {
   placeholder: string;
   classNames?: string;
 }
-export const Input = ({ value, onChange, placeholder, classNames }: Props) => {
+const Input = ({ value, onChange, placeholder, classNames }: Props) => {
   return (
     <div
       className={`w-full rounded-md mt-2.5 bg-white focus:border-[1.5px] border-solid border-[1px] border-primary-6 shadow ${classNames}`}
@@ -20,3 +20,5 @@ export const Input = ({ value, onChange, placeholder, classNames }: Props) => {
     </div>
   );
 };
+
+export default Input;

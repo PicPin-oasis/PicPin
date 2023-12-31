@@ -1,8 +1,8 @@
 "use client";
 
-import { WhiteButton } from "@/components/common/WhiteButton";
+import WhiteButton from "@/components/common/WhiteButton";
 
-export const FilterTab = () => {
+const FilterTab = () => {
   return (
     <div className="flex justify-between tablet:items-start gap-2">
       <WhiteButton
@@ -18,3 +18,5 @@ export const FilterTab = () => {
     </div>
   );
 };
+
+export default FilterTab;

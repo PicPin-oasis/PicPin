@@ -8,7 +8,7 @@ interface Props {
   limit: number;
 }
 
-export const Textarea = ({
+const Textarea = ({
   classNames,
   placeholder,
   value,
@@ -25,3 +25,4 @@ export const Textarea = ({
     />
   );
 };
+export default Textarea;

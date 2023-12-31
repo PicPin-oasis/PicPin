@@ -7,6 +7,7 @@ export interface PhotoDetailProps {
   memo: string;
   expose_image_url: string;
   taken_photo_date: string;
+  taken_photo_address: string;
 }
 export const getPhotoDetail = async (photoId: number) => {
   const res = await axiosInstance.get<PhotoDetailProps>(`/photos/${photoId}`);
@@ -15,7 +16,7 @@ export const getPhotoDetail = async (photoId: number) => {
 
 export const useGetPhotoDetail = (photoId: number) => {
   return useQuery({
-    queryKey: queryKeyFactory.GET_PHOTODETAIL(),
+    queryKey: queryKeyFactory.GET_PHOTODETAIL(photoId),
     queryFn: () => getPhotoDetail(photoId),
   });
 };

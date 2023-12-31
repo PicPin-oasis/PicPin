@@ -4,7 +4,7 @@ import { ButtonProps } from "@/types/types";
 import { useCallback } from "react";
 import Image from "next/image";
 
-export const WhiteButton = ({
+const WhiteButton = ({
   text,
   onClick,
   image,
@@ -33,3 +33,5 @@ export const WhiteButton = ({
     </button>
   );
 };
+
+export default WhiteButton;

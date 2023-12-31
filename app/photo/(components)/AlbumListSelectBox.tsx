@@ -1,18 +1,18 @@
 "use client";
 
-import { useGetAlbums } from "@/apis/axios/album/getAlbums";
-import { Error } from "@/components/common/Error";
-import { Loading } from "@/components/common/Loading";
-import { SelectBox } from "@/components/common/SelectBox";
-import { useAppSelector } from "@/redux/store";
-import { AlbumProps, PhotoUploaderProps } from "@/types/types";
 import { Dispatch, SetStateAction } from "react";
+import Error from "@/components/common/Error";
+import Loading from "@/components/common/Loading";
+import { SelectBox } from "@/components/common/SelectBox";
+import { useGetAlbums } from "@/apis/axios/album/getAlbums";
+import { AlbumProps, PhotoUploaderProps } from "@/types/types";
+import { useAppSelector } from "@/redux/store";
 
 interface Props {
   setSubmitInfo: Dispatch<SetStateAction<PhotoUploaderProps>>;
 }
 
-export const AlbumListSelectBox = ({ setSubmitInfo }: Props) => {
+const AlbumListSelectBox = ({ setSubmitInfo }: Props) => {
   const { accessToken } = useAppSelector((state) => state.accessToken);
   const { data, isLoading, isError } = useGetAlbums();
 
@@ -31,3 +31,5 @@ export const AlbumListSelectBox = ({ setSubmitInfo }: Props) => {
     />
   );
 };
+
+export default AlbumListSelectBox;

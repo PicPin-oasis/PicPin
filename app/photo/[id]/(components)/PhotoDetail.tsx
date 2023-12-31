@@ -1,19 +1,53 @@
 "use client";
-import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
-import { Error } from "@/components/common/Error";
-import { Text } from "@/components/common/Text";
-import { WhiteButton } from "@/components/common/WhiteButton";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Text from "@/components/common/Text";
+import Toast from "@/components/common/Toast";
+import WhiteButton from "@/components/common/WhiteButton";
+import { useDeletePhotoMutation } from "@/apis/axios/photos/deletePhoto";
+import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
+import { useAppDispatch } from "@/redux/store";
+import { setEditStatus } from "@/redux/editStatusSlice";
 
-export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
-  const [toggle, setToggle] = useState(true);
-  if (!data) {
-    return <Error text="사진 정보가 없습니다." />;
-  }
-  const { place_name, memo, expose_image_url, taken_photo_date } = data;
+interface Props {
+  data: PhotoDetailProps;
+}
+
+export const PhotoDetail = ({ data }: Props) => {
+  const { place_name, memo, expose_image_url, taken_photo_date, id } = data;
   const date = taken_photo_date.replaceAll("-", ".") ?? "날짜 정보가 없습니다.";
+  const dispatch = useAppDispatch();
+  const [toggle, setToggle] = useState(true);
+  const [toast, setToast] = useState(false);
+  const route = useRouter();
+  const {
+    mutate: deleteMutation,
+    isSuccess: isDeleteSuccess,
+    isError: isDeleteError,
+  } = useDeletePhotoMutation({
+    onSuccess: () => {
+      setToast(true);
+      setTimeout(() => {
+        route.push("/photo");
+      }, 2000);
+    },
+  });
   const handleClickMemo = () => setToggle(!toggle);
+  const handleDeletePhoto = () => {
+    deleteMutation(id);
+  };
+  const handleUpdatePhotos = () => {
+    dispatch(setEditStatus(true));
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [setToast]);
+
   return (
     <div className="w-full">
       <div className="w-full h-[80px] flex box-border px-5 justify-between">
@@ -27,10 +61,12 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
         <div className="h-full flex items-center gap-1">
           <WhiteButton
             text="수정"
+            onClick={handleUpdatePhotos}
             classNames="w-9 h-fit text-xs rounded-full"
           />
           <WhiteButton
             text="삭제"
+            onClick={handleDeletePhoto}
             classNames="w-9 h-fit text-xs rounded-full"
           />
         </div>
@@ -54,6 +90,7 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
           </div>
         )}
       </div>
+      {toast && <Toast text="삭제되었습니다." />}
     </div>
   );
 };

@@ -5,34 +5,62 @@ import {
   ImageInfoProps,
   PhotoUploaderProps,
 } from "@/types/types";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { ImageUploader } from "./ImageUploader";
-import { Text } from "@/components/common/Text";
+import { useState, useEffect } from "react";
+import Text from "@/components/common/Text";
+import Input from "@/components/common/Input";
+import DaumPostCodePopup from "./DaumPostCodePopup";
+import Textarea from "@/components/common/Textarea";
+import Button from "@/components/common/Button";
+import ImageUploader from "./ImageUploader";
+import Calendar from "./Calendar";
+import AlbumListSelectBox from "./AlbumListSelectBox";
 import { getImageAddress } from "@/apis/axios/photos/getImageAddress";
-import { Input } from "@/components/common/Input";
-import { DaumPostCodePopup } from "./DaumPostCodePopup";
-import { Calendar } from "./Calendar";
-import { Textarea } from "@/components/common/Textarea";
-import { AlbumListSelectBox } from "./AlbumListSelectBox";
-import { WhiteButton } from "@/components/common/WhiteButton";
 import { usePostPhotosMutation } from "@/apis/axios/photos/postPhotos";
 import { usePostPhotosUploadS3 } from "@/apis/axios/photos/postPhotosUploadS3";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setEditStatus } from "@/redux/editStatusSlice";
+import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
+import { usePutPhotoDetailMutation } from "@/apis/axios/photos/putPhotoDetail";
+import Toast from "@/components/common/Toast";
 
 interface Props {
-  handleTogglePhotoForm: () => void;
+  handleTogglePhotoForm?: () => void;
+  editData?: PhotoDetailProps;
 }
 
-export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
-  const {
-    mutate: updateMutate,
-    isSuccess: isUpdateSuccess,
-    isLoading: updateLoading,
-  } = usePostPhotosMutation();
+export default function PhotoUploader({
+  handleTogglePhotoForm,
+  editData,
+}: Props) {
+  // console.log(editData);
+  const { editStatus } = useAppSelector((state) => state.editStatus);
+  const dispatch = useAppDispatch();
+  const { mutate: postMutation, isLoading: isPostLoading } =
+    usePostPhotosMutation({
+      onSuccess: () => {
+        setToast(true);
+        setTimeout(() => {
+          handleTogglePhotoForm && handleTogglePhotoForm();
+        }, 2000);
+      },
+    });
   const {
     mutateAsync: uploadS3Mutate,
     isSuccess: isUploadS3Success,
-    isLoading: uploadS3Loading,
+    isLoading: isUploadS3Loading,
   } = usePostPhotosUploadS3();
+  const {
+    mutate: putMutation,
+    isSuccess: isPutSuccess,
+    isLoading: isPutLoading,
+  } = usePutPhotoDetailMutation({
+    onSuccess: () => {
+      setToast(true);
+      setTimeout(() => {
+        dispatch(setEditStatus(false));
+      }, 2000);
+    },
+  });
   const [submitInfo, setSubmitInfo] = useState<PhotoUploaderProps>({
     address: "첫번째 사진의 위치 정보를 가져옵니다.",
     date: "",
@@ -51,8 +79,9 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
     "첫번째 사진의 날짜 정보를 가져옵니다.",
   );
   const [title, setTitle] = useState<string>("");
-  const [memo, SetMemo] = useState<string>("");
+  const [memo, setMemo] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [toast, setToast] = useState(false);
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -62,7 +91,7 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
     filesAndPreviews.forEach((item) => formData.append("files", item.file));
     const data = await uploadS3Mutate(formData);
     // 2. 응답값에서 upload_file_paths 을 usePostPhotosMutation 에 담아서 게시글 등록
-    updateMutate({
+    postMutation({
       place_name: title,
       taken_photo_address: address,
       taken_photo_date: date,
@@ -71,11 +100,16 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
       ...(albumId !== undefined ? { album_id: albumId } : {}),
     });
   };
-  useEffect(() => {
-    if (isUpdateSuccess) {
-      handleTogglePhotoForm();
-    }
-  }, [isUpdateSuccess]);
+  const onCompleteEdit = () => {
+    putMutation({
+      photoId: (editData as PhotoDetailProps).id,
+      place_name: title,
+      taken_photo_address: address,
+      taken_photo_date: date,
+      ...(albumId !== undefined ? { album_id: albumId } : {}),
+      ...(memo && memo.length ? { memo: memo } : {}),
+    });
+  };
 
   useEffect(() => {
     if (imageInfo.date) {
@@ -108,14 +142,41 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
       }
     }
   }, [imageInfo]);
+
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.place_name);
+      setSubmitInfo((prev) => ({
+        ...prev,
+        address: editData.taken_photo_address,
+        date: editData.taken_photo_date,
+      }));
+      setCalendarPlaceholder(editData.taken_photo_date);
+      editData.memo && setMemo(editData.memo);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [setToast]);
+
   return (
     <div className="grow w-full h-full bg-primary-0 box-border px-5">
-      <Text text="사진 선택" type="essential" classNames="mt-8" />
-      <ImageUploader
-        setImageInfo={setImageInfo}
-        filesAndPreviews={filesAndPreviews}
-        setFilesAndPreviews={setFilesAndPreviews}
-      />
+      {editStatus ? (
+        <div className="h-1"></div>
+      ) : (
+        <>
+          <Text text="사진 선택" type="essential" classNames="mt-8" />
+          <ImageUploader
+            setImageInfo={setImageInfo}
+            filesAndPreviews={filesAndPreviews}
+            setFilesAndPreviews={setFilesAndPreviews}
+          />
+        </>
+      )}
       <Text text="장소명" type="essential" classNames="mt-8" />
       <Input
         value={title}
@@ -151,16 +212,19 @@ export default function PhotoUploader({ handleTogglePhotoForm }: Props) {
       <Textarea
         placeholder="이 곳에서의 추억을 자유롭게 적어주세요! ex. 엄마랑 오랜만에 바다 여행! 바다 바람 시원하고 좋아~ :)"
         value={memo}
-        onChange={(e) => SetMemo(e.target.value)}
+        onChange={(e) => setMemo(e.target.value)}
         limit={300}
       />
       <Text text="앨범 선택" classNames="mt-8" />
       <AlbumListSelectBox setSubmitInfo={setSubmitInfo} />
-      <WhiteButton
-        text="등록"
-        onClick={onSubmit}
-        classNames="rounded-md float-right mt-12 mb-20 hover:border-none shadow hover:bg-primary-6 hover:text-white transition-colors duration-150 ease-in-out"
+      <Button
+        text={editStatus ? "수정" : "등록"}
+        onClick={editStatus ? onCompleteEdit : onSubmit}
+        classNames="text-md rounded-md float-right my-8"
       />
+      {toast && (
+        <Toast text={editStatus ? "수정되었습니다." : "등록되었습니다."} />
+      )}
     </div>
   );
 }

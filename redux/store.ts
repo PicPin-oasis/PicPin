@@ -5,6 +5,7 @@ import accessTokenSlice from "./accessTokenSlice";
 import userInformationSlice from "./userInformationSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import editStatusSlice from "./editStatusSlice";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   accessToken: accessTokenSlice,
   userInformaion: userInformationSlice,
+  editStatus: editStatusSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({

@@ -1,12 +1,12 @@
 "use client";
 
+import Text from "@/components/common/Text";
+import Loading from "@/components/common/Loading";
+import Error from "@/components/common/Error";
+import PhotoCard from "./PhotoCard";
 import { useGetPhotos } from "@/apis/axios/photos/getPhotos";
-import { Text } from "@/components/common/Text";
-import { PhotoCard } from "./PhotoCard";
-import { Loading } from "@/components/common/Loading";
-import { Error } from "@/components/common/Error";
 
-export const PhotoList = () => {
+const PhotoList = () => {
   const { data, isLoading, isError } = useGetPhotos();
   const sortedArr = data?.sort((a, b) =>
     b.taken_photo_date.localeCompare(a.taken_photo_date),
@@ -35,3 +35,5 @@ export const PhotoList = () => {
     </div>
   );
 };
+
+export default PhotoList;
