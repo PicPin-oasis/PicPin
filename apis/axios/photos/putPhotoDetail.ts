@@ -29,10 +29,15 @@ export const putPhotoDetail = async ({
   return res.data;
 };
 
-export const usePutPhotoDetailMutation = () => {
+export const usePutPhotoDetailMutation = (
+  options: { onSuccess: () => void } | undefined,
+) => {
   const queryClient = useQueryClient();
   return useMutation(putPhotoDetail, {
     onSuccess: () => {
+      if (options && options.onSuccess) {
+        options.onSuccess();
+      }
       console.log("성공!!");
       queryClient.invalidateQueries(["PHOTOS"]);
       queryClient.invalidateQueries(["PHOTODETAIL"]);

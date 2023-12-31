@@ -29,10 +29,15 @@ export const postPhotos = async ({
   return data;
 };
 
-export const usePostPhotosMutation = () => {
+export const usePostPhotosMutation = (
+  options: { onSuccess: () => void } | undefined,
+) => {
   const queryClient = useQueryClient();
   return useMutation(postPhotos, {
     onSuccess: () => {
+      if (options && options.onSuccess) {
+        options.onSuccess();
+      }
       console.log("성공!!");
       queryClient.invalidateQueries(["PHOTOS"]);
     },

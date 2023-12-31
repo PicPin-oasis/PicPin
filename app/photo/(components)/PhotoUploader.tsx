@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { setEditStatus } from "@/redux/editStatusSlice";
 import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
 import { usePutPhotoDetailMutation } from "@/apis/axios/photos/putPhotoDetail";
+import Toast from "@/components/common/Toast";
 
 interface Props {
   handleTogglePhotoForm?: () => void;
@@ -34,11 +35,15 @@ export default function PhotoUploader({
   // console.log(editData);
   const { editStatus } = useAppSelector((state) => state.editStatus);
   const dispatch = useAppDispatch();
-  const {
-    mutate: postMutation,
-    isSuccess: isPostSuccess,
-    isLoading: isPostLoading,
-  } = usePostPhotosMutation();
+  const { mutate: postMutation, isLoading: isPostLoading } =
+    usePostPhotosMutation({
+      onSuccess: () => {
+        setToast(true);
+        setTimeout(() => {
+          handleTogglePhotoForm && handleTogglePhotoForm();
+        }, 2000);
+      },
+    });
   const {
     mutateAsync: uploadS3Mutate,
     isSuccess: isUploadS3Success,
@@ -48,7 +53,14 @@ export default function PhotoUploader({
     mutate: putMutation,
     isSuccess: isPutSuccess,
     isLoading: isPutLoading,
-  } = usePutPhotoDetailMutation();
+  } = usePutPhotoDetailMutation({
+    onSuccess: () => {
+      setToast(true);
+      setTimeout(() => {
+        dispatch(setEditStatus(false));
+      }, 2000);
+    },
+  });
   const [submitInfo, setSubmitInfo] = useState<PhotoUploaderProps>({
     address: "첫번째 사진의 위치 정보를 가져옵니다.",
     date: "",
@@ -69,6 +81,7 @@ export default function PhotoUploader({
   const [title, setTitle] = useState<string>("");
   const [memo, setMemo] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [toast, setToast] = useState(false);
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
   };
@@ -96,13 +109,7 @@ export default function PhotoUploader({
       ...(albumId !== undefined ? { album_id: albumId } : {}),
       ...(memo && memo.length ? { memo: memo } : {}),
     });
-    dispatch(setEditStatus(false));
   };
-  useEffect(() => {
-    if (isPostSuccess) {
-      handleTogglePhotoForm && handleTogglePhotoForm();
-    }
-  }, [isPostSuccess]);
 
   useEffect(() => {
     if (imageInfo.date) {
@@ -148,6 +155,13 @@ export default function PhotoUploader({
       editData.memo && setMemo(editData.memo);
     }
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [setToast]);
 
   return (
     <div className="grow w-full h-full bg-primary-0 box-border px-5">
@@ -208,6 +222,9 @@ export default function PhotoUploader({
         onClick={editStatus ? onCompleteEdit : onSubmit}
         classNames="text-md rounded-md float-right my-8"
       />
+      {toast && (
+        <Toast text={editStatus ? "수정되었습니다." : "등록되었습니다."} />
+      )}
     </div>
   );
 }
