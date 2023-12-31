@@ -1,18 +1,26 @@
 "use client";
-import { useDeletePhotoMutation } from "@/apis/axios/photos/deletePhoto";
-import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
-import { Error } from "@/components/common/Error";
-import { Text } from "@/components/common/Text";
-import Toast from "@/components/common/Toast";
-import { WhiteButton } from "@/components/common/WhiteButton";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Text from "@/components/common/Text";
+import Toast from "@/components/common/Toast";
+import WhiteButton from "@/components/common/WhiteButton";
+import { useDeletePhotoMutation } from "@/apis/axios/photos/deletePhoto";
+import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
+import { useAppDispatch } from "@/redux/store";
+import { setEditStatus } from "@/redux/editStatusSlice";
 
-export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
-  const route = useRouter();
+interface Props {
+  data: PhotoDetailProps;
+}
+
+export const PhotoDetail = ({ data }: Props) => {
+  const { place_name, memo, expose_image_url, taken_photo_date, id } = data;
+  const date = taken_photo_date.replaceAll("-", ".") ?? "날짜 정보가 없습니다.";
+  const dispatch = useAppDispatch();
   const [toggle, setToggle] = useState(true);
   const [toast, setToast] = useState(false);
+  const route = useRouter();
   const {
     mutate: deleteMutation,
     isSuccess: isDeleteSuccess,
@@ -25,22 +33,20 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
       }, 2000);
     },
   });
+  const handleClickMemo = () => setToggle(!toggle);
+  const handleDeletePhoto = () => {
+    deleteMutation(id);
+  };
+  const handleUpdatePhotos = () => {
+    dispatch(setEditStatus(true));
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setToast(false);
     }, 2000);
     return () => clearTimeout(timer);
   }, [setToast]);
-
-  if (!data) {
-    return <Error text="사진 정보가 없습니다." />;
-  }
-  const { place_name, memo, expose_image_url, taken_photo_date, id } = data;
-  const date = taken_photo_date.replaceAll("-", ".") ?? "날짜 정보가 없습니다.";
-  const handleClickMemo = () => setToggle(!toggle);
-  const handleDeletePhoto = () => {
-    deleteMutation(id);
-  };
 
   return (
     <div className="w-full">
@@ -55,6 +61,7 @@ export const PhotoDetail = ({ data }: { data: PhotoDetailProps }) => {
         <div className="h-full flex items-center gap-1">
           <WhiteButton
             text="수정"
+            onClick={handleUpdatePhotos}
             classNames="w-9 h-fit text-xs rounded-full"
           />
           <WhiteButton
