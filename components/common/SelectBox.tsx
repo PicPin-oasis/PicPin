@@ -6,7 +6,7 @@ interface Props {
   data: Array<{ title: string; payload: any }>;
   initialTitie?: string;
   emptyTitle?: string;
-  onChange: (target: any) => void;
+  onChange?: (target: any) => void;
 }
 
 export const SelectBox = ({
@@ -28,16 +28,19 @@ export const SelectBox = ({
 
   const onOptionClicked = (index: number) => () => {
     if (selIndex === index) return;
-    setSelIndex(index);
-    setDisplayTitle(data[index].title);
-    onChange(data[index].payload);
+    if (onChange) {
+      setSelIndex(index);
+      setDisplayTitle(data[index].title);
+      onChange(data[index].payload);
+      toggling();
+    }
   };
 
   return (
     <div className="relative w-full mt-2.5">
       <div
-        onClick={toggling}
-        className=" pl-2 py-3 border-[1px] bg-white border-primary-6 shadow focus:outline-none focus:border-[1.5px] rounded-md border-solid cursor-pointer"
+        onClick={onChange && toggling}
+        className=" pl-2 py-3 border-[1px] bg-white border-primary-6 shadow rounded-md border-solid cursor-pointer"
       >
         {displayTitle}
       </div>

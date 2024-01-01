@@ -1,14 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Error from "@/components/common/Error";
-import { useGetAlbumDetail } from "@/apis/axios/album/getAlbumDetail";
 import Text from "@/components/common/Text";
 import InfoText from "../(components)/InfoText";
-import ActionButtons from "./ActionButtons";
 import Uploader from "@/components/common/Uploader";
-import { useState } from "react";
+import ActionButtons from "./ActionButtons";
 import PhotoUploader from "@/app/photo/(components)/PhotoUploader";
+import { useGetAlbumDetail } from "@/apis/axios/album/getAlbumDetail";
 
 function AlbumDetailPageLayout() {
   const albumId = parseInt(usePathname().split("/")[2]);
@@ -20,12 +20,15 @@ function AlbumDetailPageLayout() {
   if (!data) {
     return <Error text="사진 정보가 없습니다." />;
   }
-  console.log(data);
   const { title, id, startDate, endDate, photoCount, photos } = data;
   return (
     <div className="w-full h-full flex flex-col items-center gap-1">
       {isFormOpen ? (
-        <PhotoUploader handleTogglePhotoForm={handleTogglePhotoForm} />
+        <PhotoUploader
+          handleTogglePhotoForm={handleTogglePhotoForm}
+          defalutAlbumTitle={title}
+          defaultAlbumId={albumId}
+        />
       ) : (
         <div className="w-full box-border px-4 flex flex-col gap-10">
           <div className="flex justify-between">
