@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Card from "@/components/common/Card";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -9,23 +9,11 @@ interface Props {
 }
 const PhotoCard = ({ src, id }: Props) => {
   const router = useRouter();
-  const handleImgClick = async (event: React.MouseEvent) => {
-    const IID = +(event.target as HTMLImageElement).id;
+  const handleImgClick = async (e: React.MouseEvent) => {
+    const IID = +(e.target as HTMLImageElement).id;
     router.push(`/photo/${IID}`);
   };
-  return (
-    <div onClick={handleImgClick}>
-      <Image
-        src={src}
-        alt={src}
-        width={85}
-        height={85}
-        className="rounded-lg cursor-pointer"
-        priority
-        id={id}
-      />
-    </div>
-  );
+  return <Card src={src} id={id} onClick={handleImgClick} size={85} />;
 };
 
 export default PhotoCard;
