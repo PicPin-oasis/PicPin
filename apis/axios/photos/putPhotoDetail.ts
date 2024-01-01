@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../instance";
+import { queryKeyFactory } from "../queryKeyFactory";
 
 interface Props {
   photoId: number;
@@ -37,7 +38,7 @@ export const usePutPhotoDetailMutation = (
       if (options && options.onSuccess) {
         options.onSuccess();
       }
-      queryClient.invalidateQueries(["PHOTOS"]);
+      queryClient.invalidateQueries(queryKeyFactory.GET_PHOTOS());
       queryClient.invalidateQueries(["PHOTODETAIL"]);
     },
     onError: (error) => {
