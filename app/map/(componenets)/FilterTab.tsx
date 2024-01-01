@@ -12,17 +12,17 @@ const FilterTab = () => {
         onClick={() => {
           route.push("/map/detail");
         }}
-        classNames="rounded-md"
+        classNames="rounded-md h-[30px]"
       />
       <WhiteButton
         text={"날짜 선택"}
         onClick={() => {}}
-        classNames="rounded-md"
+        classNames="rounded-md h-[30px]"
       />
       <WhiteButton
         text={"앨범 선택"}
         onClick={() => {}}
-        classNames="rounded-md"
+        classNames="rounded-md h-[30px]"
       />
     </div>
   );

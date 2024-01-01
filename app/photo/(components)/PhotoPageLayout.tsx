@@ -16,7 +16,7 @@ const PhotoPageLayout = () => {
       {isFormOpen ? (
         <PhotoUploader handleTogglePhotoForm={handleTogglePhotoForm} />
       ) : (
-        <div className="w-full box-border px-2 ">
+        <div className="w-full box-border px-4 ">
           <div className="w-full flex justify-between pt-4 ">
             <FilterTab />
             {/* <WhiteButton

@@ -7,15 +7,13 @@ interface Props {
   onClick: () => void;
 }
 const UploaderButton = ({ onClick }: Props) => {
-  const classNames =
-    "flex justify-center items-center gap-1 whitespace-nowrap rounded-md";
   return (
     <WhiteButton
       text={"사진 등록"}
       image={addPhoto}
       imageWidth={20}
       imageHeight={20}
-      classNames={classNames}
+      classNames="flex justify-center items-center gap-1 whitespace-nowrap rounded-md"
       onClick={onClick}
     />
   );
