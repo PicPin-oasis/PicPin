@@ -10,7 +10,7 @@ const Button = ({ text, onClick, image, classNames }: ButtonProps) => {
   >(() => onClick && onClick(), [onClick]);
   return (
     <button
-      className={`flex items-center justify-center gap-1 text-center text-xs font-bold w-fit px-3 py-2 rounded-md shadow bg-primary-6 text-white border-none cursor-pointer ${classNames}`}
+      className={`flex items-center justify-center gap-1 text-center font-bold w-fit px-3 py-2 rounded-md shadow bg-primary-6 text-white border-none cursor-pointer ${classNames}`}
       onClick={onClickCallback}
     >
       {text}

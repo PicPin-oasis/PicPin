@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../instance";
+import { queryKeyFactory } from "../queryKeyFactory";
 
 interface Props {
   album_id?: number;
@@ -39,7 +40,7 @@ export const usePostPhotosMutation = (
         options.onSuccess();
       }
       console.log("성공!!");
-      queryClient.invalidateQueries(["PHOTOS"]);
+      queryClient.invalidateQueries(queryKeyFactory.GET_PHOTOS());
     },
     onError: (error) => {
       console.log("에러!! :: ", error);

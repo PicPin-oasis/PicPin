@@ -9,9 +9,12 @@ export interface PhotoDetailProps {
   taken_photo_date: string;
   taken_photo_address: string;
 }
+
 export const getPhotoDetail = async (photoId: number) => {
-  const res = await axiosInstance.get<PhotoDetailProps>(`/photos/${photoId}`);
-  return res.data;
+  const { data } = await axiosInstance.get<PhotoDetailProps>(
+    `/photos/${photoId}`,
+  );
+  return data;
 };
 
 export const useGetPhotoDetail = (photoId: number) => {

@@ -16,7 +16,7 @@ import Calendar from "./Calendar";
 import AlbumListSelectBox from "./AlbumListSelectBox";
 import { getImageAddress } from "@/apis/axios/photos/getImageAddress";
 import { usePostPhotosMutation } from "@/apis/axios/photos/postPhotos";
-import { usePostPhotosUploadS3 } from "@/apis/axios/photos/postPhotosUploadS3";
+import { usePostImagesUploadS3 } from "@/apis/axios/photos/postImagesUploadS3";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { setEditStatus } from "@/redux/editStatusSlice";
 import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
@@ -48,7 +48,7 @@ export default function PhotoUploader({
     mutateAsync: uploadS3Mutate,
     isSuccess: isUploadS3Success,
     isLoading: isUploadS3Loading,
-  } = usePostPhotosUploadS3();
+  } = usePostImagesUploadS3();
   const {
     mutate: putMutation,
     isSuccess: isPutSuccess,
@@ -174,6 +174,8 @@ export default function PhotoUploader({
             setImageInfo={setImageInfo}
             filesAndPreviews={filesAndPreviews}
             setFilesAndPreviews={setFilesAndPreviews}
+            maxSize={10}
+            text="사진 선택"
           />
         </>
       )}

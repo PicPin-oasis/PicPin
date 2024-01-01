@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../instance";
+import { queryKeyFactory } from "../queryKeyFactory";
 
 interface Props {
   photoId: number;
@@ -18,15 +19,14 @@ export const putPhotoDetail = async ({
   taken_photo_address,
   taken_photo_date,
 }: Props) => {
-  const res = await axiosInstance.put(`/photos/${photoId}`, {
+  const { data } = await axiosInstance.put(`/photos/${photoId}`, {
     album_id: album_id,
     place_name: place_name,
     memo: memo,
     taken_photo_address: taken_photo_address,
     taken_photo_date: taken_photo_date,
   });
-  console.log(res);
-  return res.data;
+  return data;
 };
 
 export const usePutPhotoDetailMutation = (
@@ -38,8 +38,7 @@ export const usePutPhotoDetailMutation = (
       if (options && options.onSuccess) {
         options.onSuccess();
       }
-      console.log("성공!!");
-      queryClient.invalidateQueries(["PHOTOS"]);
+      queryClient.invalidateQueries(queryKeyFactory.GET_PHOTOS());
       queryClient.invalidateQueries(["PHOTODETAIL"]);
     },
     onError: (error) => {

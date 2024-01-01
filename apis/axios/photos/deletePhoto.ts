@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../instance";
+import { queryKeyFactory } from "../queryKeyFactory";
 
 const deletePhoto = async (photoId: number) => {
   const { data } = await axiosInstance.delete(`/photos/${photoId}`);
@@ -15,7 +16,7 @@ export const useDeletePhotoMutation = (
       if (options && options.onSuccess) {
         options.onSuccess();
       }
-      queryClient.invalidateQueries(["PHOTOS"]);
+      queryClient.invalidateQueries(queryKeyFactory.GET_PHOTOS());
     },
     onError: (err) => {
       console.log("에러!:: ", err);

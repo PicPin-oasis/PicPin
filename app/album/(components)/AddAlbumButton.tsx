@@ -6,10 +6,10 @@ import addPhoto from "@assets/svg/photo_add.svg";
 interface Props {
   onClick: () => void;
 }
-const UploaderButton = ({ onClick }: Props) => {
+const AddAlbumButton = ({ onClick }: Props) => {
   return (
     <WhiteButton
-      text={"사진 등록"}
+      text={"앨범 등록"}
       image={addPhoto}
       imageWidth={20}
       imageHeight={20}
@@ -19,4 +19,4 @@ const UploaderButton = ({ onClick }: Props) => {
   );
 };
 
-export default UploaderButton;
+export default AddAlbumButton;
