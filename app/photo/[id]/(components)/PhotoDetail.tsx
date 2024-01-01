@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import { useDeletePhotoMutation } from "@/apis/axios/photos/deletePhoto";
 import { PhotoDetailProps } from "@/apis/axios/photos/getPhotoDetail";
 import { useAppDispatch } from "@/redux/store";
 import { setEditStatus } from "@/redux/editStatusSlice";
+import Error from "@/components/common/Error";
 
 interface Props {
   data: PhotoDetailProps;
@@ -48,6 +50,8 @@ export const PhotoDetail = ({ data }: Props) => {
     return () => clearTimeout(timer);
   }, [setToast]);
 
+  if (isDeleteError) <Error text="삭제에 실패했습니다. 다시 시도해주세요." />;
+
   return (
     <div className="w-full">
       <div className="w-full h-[80px] flex box-border px-5 justify-between">
@@ -62,12 +66,12 @@ export const PhotoDetail = ({ data }: Props) => {
           <WhiteButton
             text="수정"
             onClick={handleUpdatePhotos}
-            classNames="w-9 h-fit text-xs rounded-full"
+            classNames="w-fit px-2 text-xs rounded-full h-fit"
           />
           <WhiteButton
             text="삭제"
             onClick={handleDeletePhoto}
-            classNames="w-9 h-fit text-xs rounded-full"
+            classNames="w-fit px-2 text-xs rounded-full h-fit"
           />
         </div>
       </div>
