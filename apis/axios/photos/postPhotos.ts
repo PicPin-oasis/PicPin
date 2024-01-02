@@ -10,7 +10,10 @@ interface Props {
   taken_photo_date: string;
   photo_urls: string[];
 }
-
+interface usePostPhotosMutationProps {
+  album_id?: number;
+  options: { onSuccess: () => void } | undefined;
+}
 export const postPhotos = async ({
   album_id,
   place_name,
@@ -30,9 +33,10 @@ export const postPhotos = async ({
   return data;
 };
 
-export const usePostPhotosMutation = (
-  options: { onSuccess: () => void } | undefined,
-) => {
+export const usePostPhotosMutation = ({
+  album_id,
+  options,
+}: usePostPhotosMutationProps) => {
   const queryClient = useQueryClient();
   return useMutation(postPhotos, {
     onSuccess: () => {
@@ -41,6 +45,10 @@ export const usePostPhotosMutation = (
       }
       console.log("성공!!");
       queryClient.invalidateQueries(queryKeyFactory.GET_PHOTOS());
+      album_id &&
+        queryClient.invalidateQueries(
+          queryKeyFactory.GET_ALBUMDETAIL(album_id),
+        );
     },
     onError: (error) => {
       console.log("에러!! :: ", error);

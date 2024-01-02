@@ -40,11 +40,14 @@ export default function PhotoUploader({
   const dispatch = useAppDispatch();
   const { mutate: postMutation, isLoading: isPostLoading } =
     usePostPhotosMutation({
-      onSuccess: () => {
-        setToast(true);
-        setTimeout(() => {
-          handleTogglePhotoForm && handleTogglePhotoForm();
-        }, 2000);
+      album_id: defaultAlbumId,
+      options: {
+        onSuccess: () => {
+          setToast(true);
+          setTimeout(() => {
+            handleTogglePhotoForm && handleTogglePhotoForm();
+          }, 2000);
+        },
       },
     });
   const {
