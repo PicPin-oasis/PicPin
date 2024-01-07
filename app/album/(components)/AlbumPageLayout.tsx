@@ -25,7 +25,7 @@ const AlbumPageLayout = () => {
         <AddAlbumForm handleToggleAlbumForm={handleToggleAlbumForm} />
       ) : (
         <div className="w-full h-full box-border px-4 flex flex-col gap-5">
-          <div className="flex justify-between">
+          <div className="flex justify-between mt-4">
             <AddAlbumButton onClick={handleToggleAlbumForm} />
             <InfoText count={data.length} text="의 앨범을 만들었어요!" />
           </div>

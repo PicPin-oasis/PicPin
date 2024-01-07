@@ -11,7 +11,7 @@ interface Props {
 const AlbumList = ({ data }: Props) => {
   return (
     <div className="h-full w-full">
-      <div className="w-full h-full grid grid-cols-2 gap-2 tablet:grid-cols-3 laptop:grid-cols-5 ">
+      <div className="w-full h-full grid grid-cols-2 gap-4 tablet:grid-cols-3 laptop:grid-cols-5 pb-24">
         {data.map(({ title, cover_image_url, id }) => (
           <div
             key={title}
