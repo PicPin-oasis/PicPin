@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import logoImg from "@assets/svg/logo.svg";
-import profile from "@assets/svg/profile_off.svg";
+import logoIcon from "@assets/svg/logo.svg";
+import profileIcon from "@assets/svg/profile_off.svg";
+import loginIcon from "@assets/svg/profile_on.svg";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { clearAccessToken } from "@/redux/accessTokenSlice";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ const Header = () => {
   const { accessToken } = useAppSelector((state) => state.accessToken);
   const route = useRouter();
   const dispatch = useAppDispatch();
-  const handleLogo = () => {
+  const handleClickLogo = () => {
     route.push("/");
   };
   const handleLoginButton = () => {
@@ -26,19 +26,19 @@ const Header = () => {
     }
   };
   return (
-    <div className="box-border w-full h-[80px] flex items-center tablet:justify-between px-4">
+    <div className="box-border w-full h-[80px] flex items-center tablet:justify-between px-4 my-6">
       <Image
         className="w-fit absolute left-1/2 -translate-x-1/2 cursor-pointer tablet:relative tablet:left-auto tablet:translate-x-0"
         width="200"
         height="53"
-        src={logoImg}
-        alt="logoImg"
+        src={logoIcon}
+        alt="logo-icon"
         priority
-        onClick={handleLogo}
+        onClick={handleClickLogo}
       />
       <Image
         className="absolute right-5 cursor-pointer tablet:hidden"
-        src={profile}
+        src={accessToken ? loginIcon : profileIcon}
         alt="profile"
         priority
         onClick={handleLoginButton}

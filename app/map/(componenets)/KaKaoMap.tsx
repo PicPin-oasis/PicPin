@@ -39,7 +39,7 @@ const KakaoMap = () => {
             });
         }}
       />
-      {mapLoaded && <Map center={location} style={{ height: "85vh" }}></Map>}
+      {mapLoaded && <Map center={location} style={{ height: "100vh" }}></Map>}
     </div>
   );
 };
