@@ -40,7 +40,7 @@ export const PhotoDetail = ({ data }: Props) => {
     deleteMutation(id);
   };
   const handleUpdatePhotos = () => {
-    dispatch(setEditStatus(true));
+    dispatch(setEditStatus({ isEditing: true, type: "photo" }));
   };
 
   useEffect(() => {
