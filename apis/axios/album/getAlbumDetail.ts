@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import axiosInstance from "../instance";
 import { queryKeyFactory } from "../queryKeyFactory";
 
-interface PhotosProps {
+export interface PhotosProps {
   id: number;
   imageUrl: string;
 }
