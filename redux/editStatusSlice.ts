@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
 interface Props {
-  editStatus: boolean;
+  isEditing: boolean;
+  type: string;
 }
 const initialState: Props = {
-  editStatus: false,
+  isEditing: false,
+  type: "",
 };
 
 const editStatusSlice = createSlice({
@@ -13,7 +15,9 @@ const editStatusSlice = createSlice({
   initialState,
   reducers: {
     setEditStatus: (state, action) => {
-      state.editStatus = action.payload;
+      console.log(action.payload);
+      state.isEditing = action.payload.isEditing;
+      state.type = action.payload.type;
     },
   },
   extraReducers: (builder) => {

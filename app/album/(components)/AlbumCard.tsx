@@ -7,7 +7,7 @@ interface Props {
   src: string;
   id: string;
 }
-const PhotoCard = ({ src, id }: Props) => {
+const AlbumCard = ({ src, id }: Props) => {
   const router = useRouter();
   const handleImgClick = async (e: React.MouseEvent) => {
     const IID = +(e.target as HTMLImageElement).id;
@@ -16,4 +16,4 @@ const PhotoCard = ({ src, id }: Props) => {
   return <Card src={src} id={id} onClick={handleImgClick} size={150} />;
 };
 
-export default PhotoCard;
+export default AlbumCard;

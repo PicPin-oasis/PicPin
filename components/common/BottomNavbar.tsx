@@ -11,7 +11,7 @@ import photoOn from "@assets/svg/photo_on.svg";
 import { usePathname } from "next/navigation";
 import Text from "./Text";
 
-const Navbar = () => {
+const BottomNavbar = () => {
   const links = [
     { href: "/map", src: [mapOff, mapOn], text: "지도" },
     { href: "/album", src: [bookmarkOff, bookmarkOn], text: "앨범" },
@@ -21,7 +21,7 @@ const Navbar = () => {
   const isActivePath = (href: string) => pathname.includes(href);
 
   return (
-    <div className="w-full h-[48px] z-10 bg-white flex place-items-center">
+    <div className="fixed w-full h-[48px] z-10 bg-white flex bottom-0 tablet:hidden">
       {links.map(({ href, src, text }) => (
         <Link
           key={href}
@@ -47,4 +47,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default BottomNavbar;

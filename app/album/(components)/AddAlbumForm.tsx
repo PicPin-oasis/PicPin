@@ -3,18 +3,27 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ImageUploader from "@/app/photo/(components)/ImageUploader";
 import Text from "@/components/common/Text";
-import { FileWithPreview, ImageInfoProps } from "@/types/types";
+import { AlbumProps, FileWithPreview, ImageInfoProps } from "@/types/types";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { usePostAlbumMutation } from "@/apis/axios/album/postAlbum";
 import { usePostImagesUploadS3 } from "@/apis/axios/photos/postImagesUploadS3";
 import Toast from "@/components/common/Toast";
+import { usePutAlbumMutation } from "@/apis/axios/album/putAlbum";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setEditStatus } from "@/redux/editStatusSlice";
 
 interface Props {
-  handleToggleAlbumForm: () => void;
+  handleToggleAlbumForm?: () => void;
+  editData?: AlbumProps;
 }
 
-export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
+export default function AddAlbumForm({
+  handleToggleAlbumForm,
+  editData,
+}: Props) {
+  const dispatch = useAppDispatch();
+  const { isEditing, type } = useAppSelector((state) => state.editStatus);
   const [title, setTitle] = useState<string>("");
   const [imageInfo, setImageInfo] = useState<ImageInfoProps>({
     date: "",
@@ -29,7 +38,7 @@ export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
     onSuccess: () => {
       setToast(true);
       setTimeout(() => {
-        handleToggleAlbumForm();
+        handleToggleAlbumForm && handleToggleAlbumForm();
       }, 2000);
     },
   });
@@ -38,6 +47,18 @@ export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
     isSuccess: isUploadS3Success,
     isLoading: isUploadS3Loading,
   } = usePostImagesUploadS3();
+  const {
+    mutate: putMutation,
+    isSuccess: isPutSuccess,
+    isLoading: isPutLoading,
+  } = usePutAlbumMutation({
+    onSuccess: () => {
+      setToast(true);
+      setTimeout(() => {
+        dispatch(setEditStatus({ isEditing: false, type: "" }));
+      }, 2000);
+    },
+  });
 
   const onSubmit = async () => {
     // 1. postPhotoUploadS3 요청
@@ -50,6 +71,22 @@ export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
       cover_image_url: data.upload_file_paths[0],
     });
   };
+  const onCompleteEdit = async () => {
+    const formData = new FormData();
+    filesAndPreviews.forEach((item) => formData.append("files", item.file));
+    const data = await uploadS3Mutate(formData);
+    putMutation({
+      albumId: editData?.id as number,
+      title: title,
+      cover_image_url: data.upload_file_paths[0],
+    });
+  };
+
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.title);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -59,7 +96,7 @@ export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
   }, [setToast]);
 
   return (
-    <div className="grow flex flex-col justify-between w-full h-full bg-primary-0 box-border px-5">
+    <div className="relative flex flex-col justify-between w-full h-full bg-primary-0 box-border px-5">
       <div>
         <Text text="앨범 이름" type="essential" classNames="mt-8" />
         <Input
@@ -78,8 +115,8 @@ export default function AddAlbumForm({ handleToggleAlbumForm }: Props) {
       </div>
       <Button
         text="등록"
-        onClick={onSubmit}
-        classNames="self-end text-md rounded-md float-right my-8"
+        onClick={isEditing ? onCompleteEdit : onSubmit}
+        classNames="self-end text-md rounded-md float-right mb-20"
       />
       {toast && <Toast text="등록되었습니다." />}
     </div>

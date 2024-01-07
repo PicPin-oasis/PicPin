@@ -26,22 +26,28 @@ import Toast from "@/components/common/Toast";
 interface Props {
   handleTogglePhotoForm?: () => void;
   editData?: PhotoDetailProps;
+  defalutAlbumTitle?: string;
+  defaultAlbumId?: number;
 }
 
 export default function PhotoUploader({
   handleTogglePhotoForm,
   editData,
+  defalutAlbumTitle,
+  defaultAlbumId,
 }: Props) {
-  // console.log(editData);
-  const { editStatus } = useAppSelector((state) => state.editStatus);
+  const { isEditing, type } = useAppSelector((state) => state.editStatus);
   const dispatch = useAppDispatch();
   const { mutate: postMutation, isLoading: isPostLoading } =
     usePostPhotosMutation({
-      onSuccess: () => {
-        setToast(true);
-        setTimeout(() => {
-          handleTogglePhotoForm && handleTogglePhotoForm();
-        }, 2000);
+      album_id: defaultAlbumId,
+      options: {
+        onSuccess: () => {
+          setToast(true);
+          setTimeout(() => {
+            handleTogglePhotoForm && handleTogglePhotoForm();
+          }, 2000);
+        },
       },
     });
   const {
@@ -57,14 +63,14 @@ export default function PhotoUploader({
     onSuccess: () => {
       setToast(true);
       setTimeout(() => {
-        dispatch(setEditStatus(false));
+        dispatch(setEditStatus({ isEditing: false, type: "" }));
       }, 2000);
     },
   });
   const [submitInfo, setSubmitInfo] = useState<PhotoUploaderProps>({
     address: "첫번째 사진의 위치 정보를 가져옵니다.",
     date: "",
-    albumId: undefined,
+    albumId: defaultAlbumId ?? undefined,
   });
   const { address, date, albumId } = submitInfo;
   const [imageInfo, setImageInfo] = useState<ImageInfoProps>({
@@ -165,7 +171,7 @@ export default function PhotoUploader({
 
   return (
     <div className="grow w-full h-full bg-primary-0 box-border px-5">
-      {editStatus ? (
+      {isEditing && type === "photo" ? (
         <div className="h-1"></div>
       ) : (
         <>
@@ -218,14 +224,17 @@ export default function PhotoUploader({
         limit={300}
       />
       <Text text="앨범 선택" classNames="mt-8" />
-      <AlbumListSelectBox setSubmitInfo={setSubmitInfo} />
+      <AlbumListSelectBox
+        setSubmitInfo={setSubmitInfo}
+        defaultTitle={defalutAlbumTitle}
+      />
       <Button
-        text={editStatus ? "수정" : "등록"}
-        onClick={editStatus ? onCompleteEdit : onSubmit}
+        text={isEditing ? "수정" : "등록"}
+        onClick={isEditing ? onCompleteEdit : onSubmit}
         classNames="text-md rounded-md float-right my-8"
       />
       {toast && (
-        <Toast text={editStatus ? "수정되었습니다." : "등록되었습니다."} />
+        <Toast text={isEditing ? "수정되었습니다." : "등록되었습니다."} />
       )}
     </div>
   );

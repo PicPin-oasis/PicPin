@@ -9,26 +9,21 @@ interface Props {
 }
 
 const AlbumList = ({ data }: Props) => {
-  // 앨범 미선택 추가 예정
-  // data = data.unshift({ title: "", id: "", cover_image_url: "" });
   return (
-    <div className="h-[670px] w-full overflow-y-auto">
-      <div className="flex flex-col gap-7 mt-5">
-        <div className="w-full grid grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 place-items-center">
-          {data.map((item) => (
-            <div key={item.title} className="relative">
-              <Text
-                text={item.title}
-                classNames="w-4/5 py-1 absolute left-1/2 -translate-x-1/2 bottom-3 bg-gray-50 rounded-md justify-center"
-              />
-              <AlbumCard
-                src={item.cover_image_url}
-                key={item.title}
-                id={item.id.toString()}
-              />
-            </div>
-          ))}
-        </div>
+    <div className="h-full w-full">
+      <div className="w-full h-full grid grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-5 ">
+        {data.map(({ title, cover_image_url, id }) => (
+          <div
+            key={title}
+            className="relative h-[150px] flex flex-col justify-center items-center"
+          >
+            <Text
+              text={title}
+              classNames="absolute w-[130px] py-1 bottom-2 bg-gray-50 rounded-md justify-center"
+            />
+            <AlbumCard src={cover_image_url} key={title} id={id.toString()} />
+          </div>
+        ))}
       </div>
     </div>
   );

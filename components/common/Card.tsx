@@ -11,7 +11,7 @@ interface Props {
 }
 const Card = ({ src, id, onClick, size }: Props) => {
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} className={`w-[${size}px] h-[${size}px]`}>
       <Image
         src={src}
         alt={src}

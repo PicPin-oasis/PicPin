@@ -11,15 +11,14 @@ import Error from "@/components/common/Error";
 function PhotoDetailPageLayout() {
   const id = parseInt(usePathname().split("/")[2]);
   const { data, isLoading, isError } = useGetPhotoDetail(id);
-  const { editStatus } = useAppSelector((state) => state.editStatus);
-
+  const { isEditing, type } = useAppSelector((state) => state.editStatus);
   if (!data) {
     return <Error text="사진 정보가 없습니다." />;
   }
 
   return (
     <>
-      {editStatus ? (
+      {isEditing && type === "photo" ? (
         <PhotoUploader editData={data} />
       ) : (
         <div className="w-full h-full flex flex-col items-center gap-1">

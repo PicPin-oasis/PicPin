@@ -8,40 +8,42 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { clearAccessToken } from "@/redux/accessTokenSlice";
 import { useRouter } from "next/navigation";
 import { getKaKaoLoginURL } from "@/utils/getKakaoLoginURL";
+import HeaderNavbar from "./HeaderNavbar";
 
 const Header = () => {
   const { accessToken } = useAppSelector((state) => state.accessToken);
-  const router = useRouter();
+  const route = useRouter();
   const dispatch = useAppDispatch();
-
+  const handleLogo = () => {
+    route.push("/");
+  };
   const handleLoginButton = () => {
     if (!accessToken) {
       getKaKaoLoginURL();
     } else {
-      router.push("/");
+      route.push("/");
       dispatch(clearAccessToken());
     }
   };
   return (
-    <div className="w-full h-20 grid grid-cols-4 items-center">
-      <div></div>
-      <Link href="/">
-        <Image
-          className="col-span-2"
-          width="200"
-          height="53"
-          src={logoImg}
-          alt="logoImg"
-          priority
-        />
-      </Link>
+    <div className="box-border w-full h-[80px] flex items-center tablet:justify-between px-4">
       <Image
-        className="col-start-4 ml-10"
+        className="w-fit absolute left-1/2 -translate-x-1/2 cursor-pointer tablet:relative tablet:left-auto tablet:translate-x-0"
+        width="200"
+        height="53"
+        src={logoImg}
+        alt="logoImg"
+        priority
+        onClick={handleLogo}
+      />
+      <Image
+        className="absolute right-5 cursor-pointer tablet:hidden"
         src={profile}
         alt="profile"
         priority
         onClick={handleLoginButton}
       />
+      <HeaderNavbar />
     </div>
   );
 };
