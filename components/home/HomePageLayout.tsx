@@ -5,12 +5,12 @@ import Button from "../common/Button";
 import Image from "next/image";
 import mainImg1 from "@assets/svg/main1.svg";
 import mainImg2 from "@assets/svg/main2.svg";
+import tutorial from "@assets/svg/tutorial.svg";
 import InfoText from "./InfoText";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { login } from "@/apis/axios/user/login";
 import { setAccessToken } from "@/redux/accessTokenSlice";
-import { useModal } from "@/hooks/useModal";
 import arrow from "@assets/svg/arrow.svg";
 import { getKaKaoLoginURL } from "@/utils/getKakaoLoginURL";
 
@@ -41,19 +41,33 @@ export default function HomePageLayout() {
   }, [accessToken]);
 
   return (
-    <div className="flex flex-col">
-      <div className="relative flex flex-col gap-3">
-        <Image className="w-full h-48" src={mainImg1} alt="mainImg1" priority />
-        <div className="absolute top-8 left-4 flex flex-col gap-12">
-          <InfoText />
-        </div>
+    <div className="min-w-[390px] w-full flex flex-col">
+      <div className="w-full h-full flex flex-col gap-3 tablet:relative">
+        <Image
+          className="w-full  h-60 tablet:h-[450px]"
+          src={mainImg1}
+          alt="mainImg1"
+          priority
+        />
+        <InfoText />
         <Button
           text="여행 지도 만들기"
           onClick={handleButtonClick}
           image={arrow}
           classNames="ml-4"
         />
-        <Image className="w-full h-48" src={mainImg2} alt="mainImg2" priority />
+        <Image
+          className=" w-full h-64 objectfit-cover tablet:hidden"
+          src={tutorial}
+          alt="tutorial"
+          priority
+        />
+        <Image
+          className="tablet:block w-full h-60 tablet:h-[450px]"
+          src={mainImg2}
+          alt="mainImg2"
+          priority
+        />
       </div>
     </div>
   );
